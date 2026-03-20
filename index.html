@@ -156,7 +156,6 @@
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
     position: relative;
@@ -192,6 +191,8 @@
     box-shadow: 0 4px 24px rgba(168,85,247,0.1), inset 0 0 0 1px rgba(168,85,247,0.05);
   }
   .route-card:hover::before { opacity: 1; }
+
+  a.route-card { cursor: pointer; }
 
   .route-paths {
     display: flex; flex-wrap: wrap; gap: 6px;
@@ -277,6 +278,43 @@
     opacity: 1; transform: translateX(0);
   }
 
+  a.path-tag {
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+  a.path-tag.info:hover {
+    background: rgba(59,130,246,0.2);
+    border-color: rgba(59,130,246,0.4);
+  }
+  a.path-tag.ai:hover {
+    background: rgba(168,85,247,0.2);
+    border-color: rgba(168,85,247,0.4);
+  }
+
+  .visit-links {
+    display: flex; gap: 12px; margin-top: 6px;
+  }
+  .visit-links .visit-btn {
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+  .visit-links .visit-btn:hover {
+    color: var(--accent-info);
+  }
+  .route-card.ai .visit-links .visit-btn:hover {
+    color: var(--accent-ai);
+  }
+
+  .section-icon.dev {
+    background: rgba(6,182,212,0.1);
+    border: 1px solid rgba(6,182,212,0.2);
+  }
+
   /* FOOTER */
   footer {
     text-align: center; margin-top: 48px; padding-top: 32px;
@@ -348,7 +386,7 @@
   <header>
     <div class="tag">Architecture Overview</div>
     <h1>glaubi.net</h1>
-    <p>Cloudflare Workers · Route Map · Infografik</p>
+    <p>Route Map · Infrastructure</p>
   </header>
 
   <div class="domain-bar">
@@ -358,16 +396,16 @@
 
   <div class="stats">
     <div class="stat">
-      <div class="stat-num">8</div>
+      <div class="stat-num">15</div>
       <div class="stat-label">Routes</div>
     </div>
     <div class="stat">
-      <div class="stat-num">2</div>
+      <div class="stat-num">3</div>
       <div class="stat-label">Categories</div>
     </div>
     <div class="stat">
       <div class="stat-num">6</div>
-      <div class="stat-label">AI Workers</div>
+      <div class="stat-label">GitHub Projects</div>
     </div>
   </div>
 
@@ -379,30 +417,123 @@
     </div>
     <div class="routes">
 
-      <a class="route-card info" href="https://glaubi.net/stocks" target="_blank"
+      <div class="route-card info"
          data-tip="Live data dashboards & market overview">
         <div class="route-paths">
-          <span class="path-tag info">/stocks</span>
-          <span class="path-tag info">/dashboard</span>
+          <a href="https://glaubi.net/stocks" target="_blank" class="path-tag info">/stocks</a>
+          <a href="https://glaubi.net/dashboard" target="_blank" class="path-tag info">/dashboard</a>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
           <div class="dest-name">Information Command Center</div>
           <div class="dest-type">Dashboard</div>
-          <div class="visit-btn">Visit ↗</div>
+          <div class="visit-links">
+            <a href="https://glaubi.net/stocks" target="_blank" class="visit-btn">Visit /stocks ↗</a>
+            <a href="https://glaubi.net/dashboard" target="_blank" class="visit-btn">Visit /dashboard ↗</a>
+          </div>
         </div>
-      </a>
+      </div>
 
-      <a class="route-card info" href="https://glaubi.net/claw" target="_blank"
+      <div class="route-card info"
          data-tip="The Claw ecosystem & integrations">
         <div class="route-paths">
-          <span class="path-tag info">/claw</span>
+          <a href="https://glaubi.net/claw" target="_blank" class="path-tag info">/claw</a>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
           <div class="dest-name">Claw Eco-System</div>
           <div class="dest-type">Platform</div>
-          <div class="visit-btn">Visit ↗</div>
+          <div class="visit-links">
+            <a href="https://glaubi.net/claw" target="_blank" class="visit-btn">Visit ↗</a>
+            <a href="https://github.com/robertZaufall/claw-eco" target="_blank" class="visit-btn">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DEVELOPMENT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon dev">💻</div>
+      <div class="section-title info">Development</div>
+    </div>
+    <div class="routes">
+
+      <div class="route-card info"
+         data-tip="Amadeus BC Seatmaps Project">
+        <div class="route-paths">
+          <a href="https://glaubi.net/seatmaps" target="_blank" class="path-tag info">/seatmaps</a>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Amadeus BC Seatmaps Project</div>
+          <div class="dest-type">Platform</div>
+          <div class="visit-links">
+            <a href="https://glaubi.net/seatmaps" target="_blank" class="visit-btn">Visit ↗</a>
+            <a href="https://github.com/robertZaufall/amadeus-seatmap-bc" target="_blank" class="visit-btn">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <a class="route-card info" href="https://glaubi.net/mindmanager_ai" target="_blank"
+         data-tip="MindManager Automation and AI Integration">
+        <div class="route-paths">
+          <span class="path-tag info">/mindmanager_ai</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">MindManager AI Project</div>
+          <div class="dest-type">Coding Project</div>
+        </div>
+      </a>
+
+      <a class="route-card info" href="https://glaubi.net/mindm" target="_blank"
+         data-tip="Python library for MindManager automation on Windows & macOS">
+        <div class="route-paths">
+          <span class="path-tag info">/mindm</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">mindm — MindManager Library</div>
+          <div class="dest-type">Python Library</div>
+        </div>
+      </a>
+
+      <a class="route-card info" href="https://glaubi.net/mindm-mcp" target="_blank"
+         data-tip="MCP server for LLM integration with MindManager (deprecated)">
+        <div class="route-paths">
+          <span class="path-tag info">/mindm-mcp</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">mindm-mcp — MCP Server</div>
+          <div class="dest-type">MCP Server (deprecated)</div>
+        </div>
+      </a>
+
+      <a class="route-card info" href="https://glaubi.net/mindm-skill" target="_blank"
+         data-tip="Claude Code & Codex skills for MindManager automation">
+        <div class="route-paths">
+          <span class="path-tag info">/mindm-skill</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">mindm-skill — Claude Code Skills</div>
+          <div class="dest-type">AI Skill</div>
+        </div>
+      </a>
+
+      <a class="route-card info" href="https://glaubi.net/foundry" target="_blank"
+         data-tip="Terraform deployment for Azure AI Foundry models">
+        <div class="route-paths">
+          <span class="path-tag info">/foundry</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Azure AI Foundry — Terraform</div>
+          <div class="dest-type">Infrastructure as Code</div>
         </div>
       </a>
 
@@ -427,7 +558,6 @@
         <div class="route-dest">
           <div class="dest-name">ai-future</div>
           <div class="dest-type">Cloudflare Worker</div>
-          <div class="visit-btn">Visit ↗</div>
         </div>
       </a>
 
@@ -441,7 +571,6 @@
         <div class="route-dest">
           <div class="dest-name">simulation</div>
           <div class="dest-type">Cloudflare Worker</div>
-          <div class="visit-btn">Visit ↗</div>
         </div>
       </a>
 
@@ -455,7 +584,6 @@
         <div class="route-dest">
           <div class="dest-name">42-meaning</div>
           <div class="dest-type">Cloudflare Worker</div>
-          <div class="visit-btn">Visit ↗</div>
         </div>
       </a>
 
@@ -469,7 +597,6 @@
         <div class="route-dest">
           <div class="dest-name">we</div>
           <div class="dest-type">Cloudflare Worker</div>
-          <div class="visit-btn">Visit ↗</div>
         </div>
       </a>
 
@@ -483,7 +610,6 @@
         <div class="route-dest">
           <div class="dest-name">distance</div>
           <div class="dest-type">Cloudflare Worker</div>
-          <div class="visit-btn">Visit ↗</div>
         </div>
       </a>
 
@@ -497,7 +623,6 @@
         <div class="route-dest">
           <div class="dest-name">fermi-paradox</div>
           <div class="dest-type">Cloudflare Worker</div>
-          <div class="visit-btn">Visit ↗</div>
         </div>
       </a>
 
@@ -505,7 +630,7 @@
   </div>
 
   <footer>
-    <p>Built on <a href="https://workers.cloudflare.com" target="_blank">Cloudflare Workers</a> · <a href="https://glaubi.net" target="_blank">glaubi.net</a></p>
+    <p>Copyright <span id="year"></span> <a href="https://zaufall.de" target="_blank">Robert Zaufall</a> · <a href="https://glaubi.net" target="_blank">glaubi.net</a></p>
   </footer>
 
 </div>
@@ -528,6 +653,9 @@
       tooltip.classList.remove('show');
     });
   });
+
+  // Copyright year
+  document.getElementById('year').textContent = new Date().getFullYear();
 
   // Stagger card animations
   document.querySelectorAll('.route-card').forEach((card, i) => {
