@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>glaubi.net — Infografik</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --text: #e0dfe6;
+    --text-dim: #6b6b80;
+    --accent-info: #3b82f6;
+    --accent-info-glow: rgba(59, 130, 246, 0.25);
+    --accent-ai: #a855f7;
+    --accent-ai-glow: rgba(168, 85, 247, 0.25);
+    --accent-core: #06b6d4;
+    --accent-core-glow: rgba(6, 182, 212, 0.3);
+    --green: #22c55e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .noise {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+
+  .grid-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.04;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .container {
+    position: relative; z-index: 1;
+    max-width: 960px; margin: 0 auto; padding: 60px 24px 80px;
+  }
+
+  /* HEADER */
+  header {
+    text-align: center; margin-bottom: 64px;
+    animation: fadeUp 0.8s ease-out;
+  }
+
+  header .tag {
+    display: inline-block;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--accent-core);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    padding: 6px 16px; border-radius: 20px;
+    margin-bottom: 24px;
+    background: rgba(6, 182, 212, 0.05);
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: clamp(2.4rem, 6vw, 4rem);
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e0dfe6 0%, var(--accent-core) 50%, var(--accent-ai) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+  }
+
+  header p {
+    color: var(--text-dim); font-size: 13px; margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  /* DOMAIN PILL */
+  .domain-bar {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin: 0 auto 56px;
+    padding: 14px 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: fit-content;
+    animation: fadeUp 0.8s ease-out 0.15s both;
+  }
+
+  .domain-bar .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(34,197,94,0.5);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .domain-bar span {
+    font-size: 16px; font-weight: 700;
+    color: var(--accent-core);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* SECTIONS */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease-out both;
+  }
+  .section:nth-child(1) { animation-delay: 0.25s; }
+  .section:nth-child(2) { animation-delay: 0.4s; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-icon {
+    width: 36px; height: 36px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+
+  .section-icon.info {
+    background: rgba(59,130,246,0.1);
+    border: 1px solid rgba(59,130,246,0.2);
+  }
+  .section-icon.ai {
+    background: rgba(168,85,247,0.1);
+    border: 1px solid rgba(168,85,247,0.2);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 18px; letter-spacing: 0.5px;
+  }
+
+  .section-title.info { color: var(--accent-info); }
+  .section-title.ai { color: var(--accent-ai); }
+
+  /* ROUTE CARDS */
+  .routes {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+
+  .route-card {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center; gap: 16px;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .route-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 10px;
+  }
+
+  .route-card.info::before {
+    background: linear-gradient(135deg, rgba(59,130,246,0.06), transparent 60%);
+  }
+  .route-card.ai::before {
+    background: linear-gradient(135deg, rgba(168,85,247,0.06), transparent 60%);
+  }
+
+  .route-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border);
+  }
+  .route-card.info:hover {
+    border-color: rgba(59,130,246,0.4);
+    box-shadow: 0 4px 24px rgba(59,130,246,0.1), inset 0 0 0 1px rgba(59,130,246,0.05);
+  }
+  .route-card.ai:hover {
+    border-color: rgba(168,85,247,0.4);
+    box-shadow: 0 4px 24px rgba(168,85,247,0.1), inset 0 0 0 1px rgba(168,85,247,0.05);
+  }
+  .route-card:hover::before { opacity: 1; }
+
+  .route-paths {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    justify-content: flex-end;
+  }
+
+  .path-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; padding: 4px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+
+  .path-tag.info {
+    background: rgba(59,130,246,0.1);
+    color: var(--accent-info);
+    border: 1px solid rgba(59,130,246,0.15);
+  }
+  .path-tag.ai {
+    background: rgba(168,85,247,0.1);
+    color: var(--accent-ai);
+    border: 1px solid rgba(168,85,247,0.15);
+  }
+
+  .route-arrow {
+    display: flex; align-items: center; color: var(--text-dim);
+    font-size: 18px; opacity: 0.4;
+    transition: all 0.3s ease;
+  }
+  .route-card:hover .route-arrow { opacity: 1; }
+  .route-card.info:hover .route-arrow { color: var(--accent-info); }
+  .route-card.ai:hover .route-arrow { color: var(--accent-ai); }
+
+  .route-dest {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+
+  .dest-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 14px;
+    color: var(--text);
+    transition: color 0.3s ease;
+  }
+  .route-card.info:hover .dest-name { color: var(--accent-info); }
+  .route-card.ai:hover .dest-name { color: var(--accent-ai); }
+
+  .dest-type {
+    font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* TOOLTIP */
+  .tooltip {
+    position: fixed;
+    padding: 8px 14px;
+    background: #1a1a2a;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--text-dim);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 100;
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+  .tooltip.show { opacity: 1; }
+
+  /* VISIT LINK */
+  .visit-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--text-dim);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.3s ease;
+    font-family: 'Space Mono', monospace;
+  }
+  .route-card:hover .visit-btn {
+    opacity: 1; transform: translateX(0);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center; margin-top: 48px; padding-top: 32px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.8s ease-out 0.55s both;
+  }
+  footer p {
+    font-size: 11px; color: var(--text-dim); letter-spacing: 1px;
+  }
+  footer a {
+    color: var(--accent-core); text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  /* STATS */
+  .stats {
+    display: flex; justify-content: center; gap: 40px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease-out 0.2s both;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 28px;
+    background: linear-gradient(135deg, var(--text), var(--accent-core));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    font-size: 10px; letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim); margin-top: 4px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .route-card {
+      grid-template-columns: 1fr;
+      gap: 8px; text-align: center;
+    }
+    .route-paths { justify-content: center; }
+    .route-arrow { justify-content: center; font-size: 14px; transform: rotate(90deg); }
+    .route-dest { align-items: center; }
+    .stats { gap: 24px; }
+    .visit-btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="grid-bg"></div>
+<div id="tooltip" class="tooltip"></div>
+
+<div class="container">
+
+  <header>
+    <div class="tag">Architecture Overview</div>
+    <h1>glaubi.net</h1>
+    <p>Cloudflare Workers · Route Map · Infografik</p>
+  </header>
+
+  <div class="domain-bar">
+    <div class="dot"></div>
+    <span>https://glaubi.net</span>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Routes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">6</div>
+      <div class="stat-label">AI Workers</div>
+    </div>
+  </div>
+
+  <!-- INFORMATION -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon info">📊</div>
+      <div class="section-title info">Information</div>
+    </div>
+    <div class="routes">
+
+      <a class="route-card info" href="https://glaubi.net/stocks" target="_blank"
+         data-tip="Live data dashboards & market overview">
+        <div class="route-paths">
+          <span class="path-tag info">/stocks</span>
+          <span class="path-tag info">/dashboard</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Information Command Center</div>
+          <div class="dest-type">Dashboard</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="route-card info" href="https://glaubi.net/claw" target="_blank"
+         data-tip="The Claw ecosystem & integrations">
+        <div class="route-paths">
+          <span class="path-tag info">/claw</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Claw Eco-System</div>
+          <div class="dest-type">Platform</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- AI ESSAYS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon ai">🧠</div>
+      <div class="section-title ai">AI Essays</div>
+    </div>
+    <div class="routes">
+
+      <a class="route-card ai" href="https://glaubi.net/future" target="_blank"
+         data-tip="Exploring the future of work & AI">
+        <div class="route-paths">
+          <span class="path-tag ai">/future</span>
+          
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">ai-future</div>
+          <div class="dest-type">Cloudflare Worker</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="route-card ai" href="https://glaubi.net/sim" target="_blank"
+         data-tip="Simulation theory & digital realities">
+        <div class="route-paths">
+          <span class="path-tag ai">/sim</span>
+          
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">simulation</div>
+          <div class="dest-type">Cloudflare Worker</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="route-card ai" href="https://glaubi.net/42" target="_blank"
+         data-tip="The answer to life, the universe & everything">
+        <div class="route-paths">
+          <span class="path-tag ai">/42</span>
+          
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">42-meaning</div>
+          <div class="dest-type">Cloudflare Worker</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="route-card ai" href="https://glaubi.net/we" target="_blank"
+         data-tip="Collective intelligence & human connection">
+        <div class="route-paths">
+          <span class="path-tag ai">/we</span>
+          
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">we</div>
+          <div class="dest-type">Cloudflare Worker</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="route-card ai" href="https://glaubi.net/distance" target="_blank"
+         data-tip="Cosmic distances & scale of the universe">
+        <div class="route-paths">
+          <span class="path-tag ai">/distance</span>
+          
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">distance</div>
+          <div class="dest-type">Cloudflare Worker</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+      <a class="route-card ai" href="https://glaubi.net/fermi" target="_blank"
+         data-tip="Where is everybody? The Fermi Paradox">
+        <div class="route-paths">
+          <span class="path-tag ai">/fermi</span>
+          
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">fermi-paradox</div>
+          <div class="dest-type">Cloudflare Worker</div>
+          <div class="visit-btn">Visit ↗</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>Built on <a href="https://workers.cloudflare.com" target="_blank">Cloudflare Workers</a> · <a href="https://glaubi.net" target="_blank">glaubi.net</a></p>
+  </footer>
+
+</div>
+
+<script>
+  // Custom tooltip
+  const tooltip = document.getElementById('tooltip');
+  document.querySelectorAll('.route-card').forEach(card => {
+    card.addEventListener('mouseenter', e => {
+      const tip = card.getAttribute('data-tip');
+      if (!tip) return;
+      tooltip.textContent = tip;
+      tooltip.classList.add('show');
+    });
+    card.addEventListener('mousemove', e => {
+      tooltip.style.left = e.clientX + 14 + 'px';
+      tooltip.style.top = e.clientY - 36 + 'px';
+    });
+    card.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('show');
+    });
+  });
+
+  // Stagger card animations
+  document.querySelectorAll('.route-card').forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(12px)';
+    card.style.transition = 'all 0.4s cubic-bezier(0.4,0,0.2,1)';
+    setTimeout(() => {
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0)';
+    }, 500 + i * 80);
+  });
+</script>
+
+</body>
+</html>
