@@ -16,6 +16,8 @@
     --accent-info-glow: rgba(59, 130, 246, 0.25);
     --accent-ai: #a855f7;
     --accent-ai-glow: rgba(168, 85, 247, 0.25);
+    --accent-article: #f59e0b;
+    --accent-article-glow: rgba(245, 158, 11, 0.24);
     --accent-core: #06b6d4;
     --accent-core-glow: rgba(6, 182, 212, 0.3);
     --green: #22c55e;
@@ -134,6 +136,10 @@
     background: rgba(168,85,247,0.1);
     border: 1px solid rgba(168,85,247,0.2);
   }
+  .section-icon.article {
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+  }
 
   .section-title {
     font-family: 'Syne', sans-serif;
@@ -142,6 +148,7 @@
 
   .section-title.info { color: var(--accent-info); }
   .section-title.ai { color: var(--accent-ai); }
+  .section-title.article { color: var(--accent-article); }
 
   /* ROUTE CARDS */
   .routes {
@@ -177,6 +184,9 @@
   .route-card.ai::before {
     background: linear-gradient(135deg, rgba(168,85,247,0.06), transparent 60%);
   }
+  .route-card.article::before {
+    background: linear-gradient(135deg, rgba(245,158,11,0.08), transparent 60%);
+  }
 
   .route-card:hover {
     transform: translateY(-2px);
@@ -189,6 +199,10 @@
   .route-card.ai:hover {
     border-color: rgba(168,85,247,0.4);
     box-shadow: 0 4px 24px rgba(168,85,247,0.1), inset 0 0 0 1px rgba(168,85,247,0.05);
+  }
+  .route-card.article:hover {
+    border-color: rgba(245,158,11,0.4);
+    box-shadow: 0 4px 24px rgba(245,158,11,0.12), inset 0 0 0 1px rgba(245,158,11,0.06);
   }
   .route-card:hover::before { opacity: 1; }
 
@@ -216,6 +230,11 @@
     color: var(--accent-ai);
     border: 1px solid rgba(168,85,247,0.15);
   }
+  .path-tag.article {
+    background: rgba(245,158,11,0.1);
+    color: var(--accent-article);
+    border: 1px solid rgba(245,158,11,0.18);
+  }
 
   .route-arrow {
     display: flex; align-items: center; color: var(--text-dim);
@@ -225,6 +244,7 @@
   .route-card:hover .route-arrow { opacity: 1; }
   .route-card.info:hover .route-arrow { color: var(--accent-info); }
   .route-card.ai:hover .route-arrow { color: var(--accent-ai); }
+  .route-card.article:hover .route-arrow { color: var(--accent-article); }
 
   .route-dest {
     display: flex; flex-direction: column; gap: 2px;
@@ -238,6 +258,7 @@
   }
   .route-card.info:hover .dest-name { color: var(--accent-info); }
   .route-card.ai:hover .dest-name { color: var(--accent-ai); }
+  .route-card.article:hover .dest-name { color: var(--accent-article); }
 
   .dest-type {
     font-size: 10px; letter-spacing: 1.5px;
@@ -293,6 +314,10 @@
     background: rgba(168,85,247,0.2);
     border-color: rgba(168,85,247,0.4);
   }
+  a.path-tag.article:hover {
+    background: rgba(245,158,11,0.2);
+    border-color: rgba(245,158,11,0.4);
+  }
 
   .visit-links {
     display: flex; gap: 12px; margin-top: 6px;
@@ -309,7 +334,6 @@
   .route-card.ai .visit-links .visit-btn:hover {
     color: var(--accent-ai);
   }
-
   .section-icon.dev {
     background: rgba(6,182,212,0.1);
     border: 1px solid rgba(6,182,212,0.2);
@@ -386,7 +410,7 @@
   <header>
     <div class="tag">Architecture Overview</div>
     <h1>glaubi.net</h1>
-    <p>Route Map · Infrastructure</p>
+    <p>Route Map · Projects & Articles</p>
   </header>
 
   <div class="domain-bar">
@@ -400,7 +424,7 @@
       <div class="stat-label">Routes</div>
     </div>
     <div class="stat">
-      <div class="stat-num">3</div>
+      <div class="stat-num">4</div>
       <div class="stat-label">Categories</div>
     </div>
     <div class="stat">
@@ -623,6 +647,29 @@
         <div class="route-dest">
           <div class="dest-name">fermi-paradox</div>
           <div class="dest-type">Cloudflare Worker</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- 3RD PARTY ARTICLES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon article">📰</div>
+      <div class="section-title article">3rd Party Articles</div>
+    </div>
+    <div class="routes">
+
+      <a class="route-card article" href="https://glaubi.net/inferenz" target="_blank"
+         data-tip="iX Magazin benchmark comparing vLLM, SGLang, and NVIDIA NIM on a single Nvidia H200 GPU">
+        <div class="route-paths">
+          <span class="path-tag article">/inferenz</span>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Inferenz-Engines im Vergleich</div>
+          <div class="dest-type">iX Magazin Benchmark</div>
         </div>
       </a>
 
