@@ -322,6 +322,10 @@
   .visit-links {
     display: flex; gap: 12px; margin-top: 6px;
   }
+  .visit-links.always-visible .visit-btn {
+    opacity: 1;
+    transform: translateX(0);
+  }
   .visit-links .visit-btn {
     text-decoration: none;
     cursor: pointer;
@@ -451,7 +455,7 @@
         <div class="route-dest">
           <div class="dest-name">Information Command Center</div>
           <div class="dest-type">Dashboard</div>
-          <div class="visit-links">
+          <div class="visit-links always-visible">
             <a href="https://glaubi.net/stocks" target="_blank" class="visit-btn">Visit /stocks ↗</a>
             <a href="https://glaubi.net/dashboard" target="_blank" class="visit-btn">Visit /dashboard ↗</a>
           </div>
@@ -467,7 +471,7 @@
         <div class="route-dest">
           <div class="dest-name">Claw Eco-System</div>
           <div class="dest-type">Platform</div>
-          <div class="visit-links">
+          <div class="visit-links always-visible">
             <a href="https://glaubi.net/claw" target="_blank" class="visit-btn">Visit ↗</a>
             <a href="https://github.com/robertZaufall/claw-eco" target="_blank" class="visit-btn">GitHub ↗</a>
           </div>
@@ -494,7 +498,7 @@
         <div class="route-dest">
           <div class="dest-name">Amadeus BC Seatmaps Project</div>
           <div class="dest-type">Platform</div>
-          <div class="visit-links">
+          <div class="visit-links always-visible">
             <a href="https://glaubi.net/seatmaps" target="_blank" class="visit-btn">Visit ↗</a>
             <a href="https://github.com/robertZaufall/amadeus-seatmap-bc" target="_blank" class="visit-btn">GitHub ↗</a>
           </div>
