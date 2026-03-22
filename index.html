@@ -14,6 +14,8 @@
     --text-dim: #6b6b80;
     --accent-info: #3b82f6;
     --accent-info-glow: rgba(59, 130, 246, 0.25);
+    --accent-dev: #14b8a6;
+    --accent-dev-glow: rgba(20, 184, 166, 0.24);
     --accent-ai: #a855f7;
     --accent-ai-glow: rgba(168, 85, 247, 0.25);
     --accent-article: #f59e0b;
@@ -136,6 +138,10 @@
     background: rgba(168,85,247,0.1);
     border: 1px solid rgba(168,85,247,0.2);
   }
+  .section-icon.dev {
+    background: rgba(20,184,166,0.1);
+    border: 1px solid rgba(20,184,166,0.2);
+  }
   .section-icon.article {
     background: rgba(245,158,11,0.1);
     border: 1px solid rgba(245,158,11,0.2);
@@ -147,6 +153,7 @@
   }
 
   .section-title.info { color: var(--accent-info); }
+  .section-title.dev { color: var(--accent-dev); }
   .section-title.ai { color: var(--accent-ai); }
   .section-title.article { color: var(--accent-article); }
 
@@ -181,6 +188,9 @@
   .route-card.info::before {
     background: linear-gradient(135deg, rgba(59,130,246,0.06), transparent 60%);
   }
+  .route-card.dev::before {
+    background: linear-gradient(135deg, rgba(20,184,166,0.08), transparent 60%);
+  }
   .route-card.ai::before {
     background: linear-gradient(135deg, rgba(168,85,247,0.06), transparent 60%);
   }
@@ -195,6 +205,10 @@
   .route-card.info:hover {
     border-color: rgba(59,130,246,0.4);
     box-shadow: 0 4px 24px rgba(59,130,246,0.1), inset 0 0 0 1px rgba(59,130,246,0.05);
+  }
+  .route-card.dev:hover {
+    border-color: rgba(20,184,166,0.4);
+    box-shadow: 0 4px 24px rgba(20,184,166,0.12), inset 0 0 0 1px rgba(20,184,166,0.06);
   }
   .route-card.ai:hover {
     border-color: rgba(168,85,247,0.4);
@@ -225,6 +239,11 @@
     color: var(--accent-info);
     border: 1px solid rgba(59,130,246,0.15);
   }
+  .path-tag.dev {
+    background: rgba(20,184,166,0.1);
+    color: var(--accent-dev);
+    border: 1px solid rgba(20,184,166,0.18);
+  }
   .path-tag.ai {
     background: rgba(168,85,247,0.1);
     color: var(--accent-ai);
@@ -243,6 +262,7 @@
   }
   .route-card:hover .route-arrow { opacity: 1; }
   .route-card.info:hover .route-arrow { color: var(--accent-info); }
+  .route-card.dev:hover .route-arrow { color: var(--accent-dev); }
   .route-card.ai:hover .route-arrow { color: var(--accent-ai); }
   .route-card.article:hover .route-arrow { color: var(--accent-article); }
 
@@ -257,6 +277,7 @@
     transition: color 0.3s ease;
   }
   .route-card.info:hover .dest-name { color: var(--accent-info); }
+  .route-card.dev:hover .dest-name { color: var(--accent-dev); }
   .route-card.ai:hover .dest-name { color: var(--accent-ai); }
   .route-card.article:hover .dest-name { color: var(--accent-article); }
 
@@ -310,6 +331,10 @@
     background: rgba(59,130,246,0.2);
     border-color: rgba(59,130,246,0.4);
   }
+  a.path-tag.dev:hover {
+    background: rgba(20,184,166,0.2);
+    border-color: rgba(20,184,166,0.4);
+  }
   a.path-tag.ai:hover {
     background: rgba(168,85,247,0.2);
     border-color: rgba(168,85,247,0.4);
@@ -335,12 +360,11 @@
   .visit-links .visit-btn:hover {
     color: var(--accent-info);
   }
+  .route-card.dev .visit-links .visit-btn:hover {
+    color: var(--accent-dev);
+  }
   .route-card.ai .visit-links .visit-btn:hover {
     color: var(--accent-ai);
-  }
-  .section-icon.dev {
-    background: rgba(6,182,212,0.1);
-    border: 1px solid rgba(6,182,212,0.2);
   }
 
   /* FOOTER */
@@ -485,14 +509,14 @@
   <div class="section">
     <div class="section-header">
       <div class="section-icon dev">💻</div>
-      <div class="section-title info">Development</div>
+      <div class="section-title dev">Development</div>
     </div>
     <div class="routes">
 
-      <div class="route-card info"
+      <div class="route-card dev"
          data-tip="Amadeus BC Seatmaps Project">
         <div class="route-paths">
-          <a href="https://glaubi.net/seatmaps" target="_blank" class="path-tag info">/seatmaps</a>
+          <a href="https://glaubi.net/seatmaps" target="_blank" class="path-tag dev">/seatmaps</a>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
@@ -505,10 +529,10 @@
         </div>
       </div>
 
-      <a class="route-card info" href="https://glaubi.net/mindmanager_ai" target="_blank"
+      <a class="route-card dev" href="https://glaubi.net/mindmanager_ai" target="_blank"
          data-tip="MindManager Automation and AI Integration">
         <div class="route-paths">
-          <span class="path-tag info">/mindmanager_ai</span>
+          <span class="path-tag dev">/mindmanager_ai</span>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
@@ -517,10 +541,10 @@
         </div>
       </a>
 
-      <a class="route-card info" href="https://glaubi.net/mindm" target="_blank"
+      <a class="route-card dev" href="https://glaubi.net/mindm" target="_blank"
          data-tip="Python library for MindManager automation on Windows & macOS">
         <div class="route-paths">
-          <span class="path-tag info">/mindm</span>
+          <span class="path-tag dev">/mindm</span>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
@@ -529,10 +553,10 @@
         </div>
       </a>
 
-      <a class="route-card info" href="https://glaubi.net/mindm-mcp" target="_blank"
+      <a class="route-card dev" href="https://glaubi.net/mindm-mcp" target="_blank"
          data-tip="MCP server for LLM integration with MindManager (deprecated)">
         <div class="route-paths">
-          <span class="path-tag info">/mindm-mcp</span>
+          <span class="path-tag dev">/mindm-mcp</span>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
@@ -541,10 +565,10 @@
         </div>
       </a>
 
-      <a class="route-card info" href="https://glaubi.net/mindm-skill" target="_blank"
+      <a class="route-card dev" href="https://glaubi.net/mindm-skill" target="_blank"
          data-tip="Claude Code & Codex skills for MindManager automation">
         <div class="route-paths">
-          <span class="path-tag info">/mindm-skill</span>
+          <span class="path-tag dev">/mindm-skill</span>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
@@ -553,10 +577,10 @@
         </div>
       </a>
 
-      <a class="route-card info" href="https://glaubi.net/foundry" target="_blank"
+      <a class="route-card dev" href="https://glaubi.net/foundry" target="_blank"
          data-tip="Terraform deployment for Azure AI Foundry models">
         <div class="route-paths">
-          <span class="path-tag info">/foundry</span>
+          <span class="path-tag dev">/foundry</span>
         </div>
         <div class="route-arrow">⟶</div>
         <div class="route-dest">
