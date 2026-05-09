@@ -26,8 +26,8 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <style>
     html { scroll-behavior: smooth; }
-    body { margin: 0; background: #020617; }
-    ::selection { background: rgba(52, 211, 153, 0.28); }
+    body { margin: 0; background: #fafafa; }
+    ::selection { background: rgba(24, 24, 27, 0.14); }
   </style>
 </head>
 <body>
@@ -35,7 +35,7 @@
   <script type="text/babel">
     const cx = (...classes) => classes.filter(Boolean).join(' ');
     function Card({ className = '', children, ...props }) {
-      return <div className={cx('rounded-lg border border-slate-800 bg-slate-900 text-slate-100 shadow-sm', className)} {...props}>{children}</div>;
+      return <div className={cx('rounded-lg border border-zinc-200 bg-white text-zinc-950 shadow-sm', className)} {...props}>{children}</div>;
     }
     function CardHeader({ className = '', children, ...props }) {
       return <div className={cx('flex flex-col space-y-1.5 p-6', className)} {...props}>{children}</div>;
@@ -50,7 +50,7 @@
       return <span className={cx('inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors', className)} {...props}>{children}</span>;
     }
     function Separator({ className = '', ...props }) {
-      return <div className={cx('h-px w-full shrink-0 bg-slate-800', className)} {...props} />;
+      return <div className={cx('h-px w-full shrink-0 bg-zinc-200', className)} {...props} />;
     }
     function Button({ className = '', children, ...props }) {
       return <button className={cx('inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors', className)} {...props}>{children}</button>;
@@ -328,7 +328,7 @@ function InlineGlyph({ label, className = "" }) {
   return (
     <span
       aria-hidden="true"
-      className={`inline-flex shrink-0 items-center justify-center rounded-xl border border-current/20 bg-current/10 font-mono text-[0.64rem] font-bold uppercase tracking-wider ${className}`}
+      className={`inline-flex shrink-0 items-center justify-center rounded-md border border-zinc-200 bg-zinc-100 font-mono text-[0.64rem] font-semibold uppercase tracking-wider text-zinc-700 ${className}`}
     >
       {label}
     </span>
@@ -362,9 +362,9 @@ function CircuitIcon({ className = "" }) {
 
 function CodeBlock({ lines, label }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/90 shadow-inner shadow-black/30">
-      {label ? <div className="border-b border-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{label}</div> : null}
-      <pre className="overflow-x-auto p-4 text-xs leading-6 text-slate-200 sm:text-sm">
+    <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-950">
+      {label ? <div className="border-b border-zinc-800 px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] text-zinc-400">{label}</div> : null}
+      <pre className="overflow-x-auto p-4 text-xs leading-6 text-zinc-100 sm:text-sm">
         <code>{lines.join("\n")}</code>
       </pre>
     </div>
@@ -373,13 +373,13 @@ function CodeBlock({ lines, label }) {
 
 function MiniTable({ rows }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-800">
+    <div className="overflow-hidden rounded-lg border border-zinc-200">
       <table className="w-full border-collapse text-left text-sm">
         <tbody>
           {rows.map(([key, value]) => (
-            <tr key={key} className="border-b border-slate-800 last:border-b-0">
-              <th className="w-40 bg-slate-950/70 px-4 py-3 font-semibold text-slate-200">{key}</th>
-              <td className="px-4 py-3 text-slate-300">{value}</td>
+            <tr key={key} className="border-b border-zinc-200 last:border-b-0">
+              <th className="w-40 bg-zinc-50 px-4 py-3 font-medium text-zinc-950">{key}</th>
+              <td className="px-4 py-3 text-zinc-700">{value}</td>
             </tr>
           ))}
         </tbody>
@@ -389,247 +389,225 @@ function MiniTable({ rows }) {
 }
 
 function SectionLabel({ children }) {
-  return <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-300">{children}</p>;
+  return <p className="text-xs font-medium uppercase tracking-[0.22em] text-zinc-500">{children}</p>;
 }
 
 function SimToRealSo101WorkshopCanvas() {
   React.useMemo(() => runContentModelTests(), []);
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
-      <section className="relative isolate overflow-hidden px-6 py-10 sm:px-10 lg:px-16">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.24),transparent_34%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.18),transparent_28%),linear-gradient(135deg,#020617,#0f172a_45%,#111827)]" />
-        <div className="absolute left-1/2 top-0 -z-10 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
-
-        <div className="mx-auto max-w-7xl space-y-8">
-          <div className="flex flex-wrap items-center gap-3">
-            <Badge className="border-emerald-400/40 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20">Robotics Workshop</Badge>
-            <Badge className="border-blue-400/40 bg-blue-400/10 text-blue-200 hover:bg-blue-400/20">NVIDIA GB10</Badge>
-            <Badge className="border-violet-400/40 bg-violet-400/10 text-violet-200 hover:bg-violet-400/20">{article.qualifier}</Badge>
-            <Badge className="border-amber-400/40 bg-amber-400/10 text-amber-200 hover:bg-amber-400/20">GROOT N1.6</Badge>
+    <main className="min-h-screen bg-zinc-50 text-zinc-950">
+      <header className="border-b border-zinc-200 bg-white">
+        <div className="mx-auto max-w-5xl px-6 py-12 sm:px-8 lg:px-10">
+          <div className="mb-6 flex flex-wrap gap-2">
+            <Badge className="border-zinc-200 bg-zinc-50 text-zinc-700">Robotics Workshop</Badge>
+            <Badge className="border-zinc-200 bg-zinc-50 text-zinc-700">NVIDIA GB10</Badge>
+            <Badge className="border-zinc-200 bg-zinc-50 text-zinc-700">{article.qualifier}</Badge>
+            <Badge className="border-zinc-200 bg-zinc-50 text-zinc-700">GROOT N1.6</Badge>
           </div>
-
-          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
-            <div className="space-y-6">
-              <div className="space-y-4">
-                <SectionLabel>{article.subtitle}</SectionLabel>
-                <h1 className="max-w-5xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">{article.title}</h1>
-                <p className="max-w-4xl text-lg leading-8 text-slate-300">{article.workshopDescription}</p>
-              </div>
-              <div className="flex flex-wrap gap-3 text-sm text-slate-300">
-                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">{article.author}</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">{article.readTime}</span>
-                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">{article.date}</span>
-              </div>
-            </div>
-
-            <Card className="rounded-3xl border-white/10 bg-white/10 text-slate-100 shadow-2xl shadow-black/30 backdrop-blur-xl">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl"><CircuitIcon className="h-5 w-5 text-emerald-300" /> GB10 Porting Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-5 text-sm leading-6 text-slate-300">
-                <p>{article.setupContrast}</p>
-                <Separator className="bg-white/10" />
-                <p>{article.debuggingSummary}</p>
-                <p className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-emerald-100">{article.outcome}</p>
-              </CardContent>
-            </Card>
+          <SectionLabel>{article.subtitle}</SectionLabel>
+          <h1 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight text-zinc-950 sm:text-5xl">
+            {article.title}
+          </h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-600">{article.workshopDescription}</p>
+          <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-sm text-zinc-500">
+            <span>{article.author}</span>
+            <span>{article.readTime}</span>
+            <span>{article.date}</span>
           </div>
         </div>
-      </section>
+      </header>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+      <div className="mx-auto max-w-5xl space-y-8 px-6 py-8 sm:px-8 lg:px-10">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <CircuitIcon className="h-5 w-5 text-zinc-700" /> GB10 Porting Summary
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm leading-7 text-zinc-600">
+            <p>{article.setupContrast}</p>
+            <Separator />
+            <p>{article.debuggingSummary}</p>
+            <p className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-zinc-800">{article.outcome}</p>
+          </CardContent>
+        </Card>
+
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <Card>
             <CardHeader>
               <SectionLabel>Why everything breaks</SectionLabel>
-              <CardTitle className="text-3xl">ARM64 is not x86_64 with a different label</CardTitle>
+              <CardTitle>ARM64 is not x86_64 with a different label</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-5 text-base leading-8 text-slate-300">
+            <CardContent className="space-y-5 text-base leading-8 text-zinc-600">
               <p>Almost every issue came down to one reality:</p>
-              <blockquote className="rounded-3xl border-l-4 border-emerald-300 bg-slate-950/70 p-6 text-2xl font-semibold leading-10 text-white shadow-inner shadow-black/20">The ARM64 Python ecosystem is very different from x86_64.</blockquote>
+              <blockquote className="rounded-lg border-l-4 border-zinc-300 bg-zinc-50 p-5 text-xl font-semibold leading-8 text-zinc-950">
+                The ARM64 Python ecosystem is very different from x86_64.
+              </blockquote>
               <p>If you are used to pip install “just working” on a desktop workstation, ARM64 will force you to understand what your dependencies are actually doing.</p>
             </CardContent>
           </Card>
 
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Debugging Surface Area</CardTitle>
+              <CardTitle>Debugging Surface Area</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2">
                 {introIssues.map((issue, index) => (
-                  <div key={issue} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 transition hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-slate-900">
-                    <InlineGlyph label={`0${index + 1}`} className="mb-4 h-11 w-11 text-emerald-300" />
-                    <p className="font-medium leading-6 text-slate-100">{issue}</p>
+                  <div key={issue} className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+                    <InlineGlyph label={`0${index + 1}`} className="mb-3 h-9 w-9" />
+                    <p className="text-sm font-medium leading-6 text-zinc-800">{issue}</p>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
         </div>
-      </section>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1fr_1fr]">
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <Card>
             <CardHeader>
               <SectionLabel>On aarch64</SectionLabel>
-              <CardTitle className="text-2xl">What changes</CardTitle>
+              <CardTitle>What changes</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-3">
+              <div className="grid gap-2">
                 {arm64Reality.map((item) => (
-                  <div key={item} className="rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-slate-300">{item}</div>
+                  <div key={item} className="rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">{item}</div>
                 ))}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+          <Card>
             <CardHeader>
               <SectionLabel>Environment</SectionLabel>
-              <CardTitle className="text-2xl">Hardware & Software</CardTitle>
+              <CardTitle>Hardware & Software</CardTitle>
             </CardHeader>
             <CardContent>
               <MiniTable rows={environmentRows} />
             </CardContent>
           </Card>
         </div>
-      </section>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl space-y-6">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <section className="space-y-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <SectionLabel>Applied fixes</SectionLabel>
-              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">Every issue and exact remediation</h2>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-950">Every issue and exact remediation</h2>
             </div>
-            <Badge className="w-fit border-emerald-400/40 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20">6 fixes</Badge>
+            <Badge className="w-fit border-zinc-200 bg-white text-zinc-700">6 fixes</Badge>
           </div>
 
           {fixes.map((fix) => (
-            <Card key={fix.number} className="overflow-hidden rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
-              <CardContent className="grid gap-6 p-6 lg:grid-cols-[0.72fr_1.28fr] lg:p-8">
+            <Card key={fix.number} className="overflow-hidden">
+              <CardContent className="grid gap-6 p-6 lg:grid-cols-[0.72fr_1.28fr]">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    <InlineGlyph label={fix.number} className="h-12 w-12 text-emerald-300" />
-                    <Badge className="border-slate-700 bg-slate-950 text-slate-300 hover:bg-slate-900">{fix.category}</Badge>
+                    <InlineGlyph label={fix.number} className="h-11 w-11" />
+                    <Badge className="border-zinc-200 bg-zinc-50 text-zinc-700">{fix.category}</Badge>
                   </div>
-                  <h3 className="text-2xl font-semibold tracking-tight text-white">{fix.title}</h3>
-                  <div className="space-y-3 text-sm leading-6 text-slate-300">
-                    <p><span className="font-semibold text-rose-200">Problem:</span> {fix.problem}</p>
-                    <p><span className="font-semibold text-emerald-200">Fix:</span> {fix.fix}</p>
-                    <p><span className="font-semibold text-blue-200">Why it mattered:</span> {fix.whyItMatters}</p>
+                  <h3 className="text-2xl font-semibold tracking-tight text-zinc-950">{fix.title}</h3>
+                  <div className="space-y-3 text-sm leading-6 text-zinc-600">
+                    <p><span className="font-medium text-zinc-950">Problem:</span> {fix.problem}</p>
+                    <p><span className="font-medium text-zinc-950">Fix:</span> {fix.fix}</p>
+                    <p><span className="font-medium text-zinc-950">Why it mattered:</span> {fix.whyItMatters}</p>
                   </div>
                 </div>
                 <div className="space-y-4">
                   <CodeBlock label={fix.codeLabel} lines={fix.code} />
                   {fix.table ? <MiniTable rows={fix.table} /> : null}
-                  {fix.callout ? <div className="rounded-2xl border border-amber-300/30 bg-amber-300/10 p-4 text-sm leading-6 text-amber-100">{fix.callout}</div> : null}
+                  {fix.callout ? <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4 text-sm leading-6 text-zinc-700">{fix.callout}</div> : null}
                 </div>
               </CardContent>
             </Card>
           ))}
-        </div>
-      </section>
+        </section>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
-            <CardHeader>
-              <SectionLabel>Static TLS detail</SectionLabel>
-              <CardTitle className="text-2xl">Why the libgomp failure cascaded</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5 text-slate-300">
-              <p className="leading-8">On ARM64, the dynamic linker allocates a fixed-size static TLS region at process startup. Every shared library using thread-local variables consumes part of this region. Isaac Sim loads a massive number of libraries, eventually filling the region.</p>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {tlsLibraries.map((library) => (
-                  <div key={library} className="rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-sm text-slate-300">{library}</div>
-                ))}
-              </div>
-              <div className="rounded-2xl border border-rose-400/20 bg-rose-400/10 p-4 font-mono text-sm text-rose-100">libgomp.so.1: cannot allocate memory in static TLS block</div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+        <Card>
+          <CardHeader>
+            <SectionLabel>Static TLS detail</SectionLabel>
+            <CardTitle>Why the libgomp failure cascaded</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-5 text-zinc-600">
+            <p className="leading-8">On ARM64, the dynamic linker allocates a fixed-size static TLS region at process startup. Every shared library using thread-local variables consumes part of this region. Isaac Sim loads a massive number of libraries, eventually filling the region.</p>
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              {tlsLibraries.map((library) => (
+                <div key={library} className="rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">{library}</div>
+              ))}
+            </div>
+            <div className="rounded-lg border border-zinc-200 bg-zinc-100 p-4 font-mono text-sm text-zinc-900">libgomp.so.1: cannot allocate memory in static TLS block</div>
+          </CardContent>
+        </Card>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl">
-          <Card className="overflow-hidden rounded-3xl border-emerald-400/20 bg-gradient-to-br from-emerald-400/15 via-slate-900 to-blue-500/10 text-slate-100 shadow-2xl shadow-black/30">
-            <CardHeader>
-              <SectionLabel>Complete launcher</SectionLabel>
-              <CardTitle className="text-3xl">Final run_teleop.sh with all ARM64 fixes applied</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CodeBlock label="run_teleop.sh" lines={runTeleopScript} />
-            </CardContent>
-          </Card>
-        </div>
-      </section>
+        <Card>
+          <CardHeader>
+            <SectionLabel>Complete launcher</SectionLabel>
+            <CardTitle>Final run_teleop.sh with all ARM64 fixes applied</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CodeBlock label="run_teleop.sh" lines={runTeleopScript} />
+          </CardContent>
+        </Card>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl space-y-6">
+        <section className="space-y-4">
           <div>
             <SectionLabel>Key takeaways</SectionLabel>
-            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">What to expect when bringing SO-101 to ARM64 Blackwell systems</h2>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-zinc-950">What to expect when bringing SO-101 to ARM64 Blackwell systems</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             {takeaways.map((takeaway, index) => (
-              <Card key={takeaway.title} className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
-                <CardContent className="space-y-4 p-6">
-                  <InlineGlyph label={`${index + 1}`} className="h-10 w-10 text-emerald-300" />
-                  <h3 className="text-xl font-semibold text-white">{takeaway.title}</h3>
-                  <p className="leading-7 text-slate-300">{takeaway.text}</p>
+              <Card key={takeaway.title}>
+                <CardContent className="space-y-3 p-6">
+                  <InlineGlyph label={`${index + 1}`} className="h-9 w-9" />
+                  <h3 className="text-xl font-semibold text-zinc-950">{takeaway.title}</h3>
+                  <p className="leading-7 text-zinc-600">{takeaway.text}</p>
                 </CardContent>
               </Card>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="px-6 pb-10 sm:px-10 lg:px-16">
-        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+          <Card>
             <CardHeader>
               <SectionLabel>GB10 after the fixes</SectionLabel>
-              <CardTitle className="text-2xl">Why it is compelling</CardTitle>
+              <CardTitle>Why it is compelling</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-3">
+            <CardContent className="grid gap-2">
               {platformHighlights.map((item) => (
-                <div key={item} className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-emerald-100">{item}</div>
+                <div key={item} className="rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm text-zinc-700">{item}</div>
               ))}
             </CardContent>
           </Card>
 
-          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+          <Card>
             <CardHeader>
               <SectionLabel>Final thoughts</SectionLabel>
-              <CardTitle className="text-2xl">The bottleneck is ecosystem friction</CardTitle>
+              <CardTitle>The bottleneck is ecosystem friction</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4 text-base leading-8 text-slate-300">
+            <CardContent className="space-y-4 text-base leading-8 text-zinc-600">
               {finalThoughts.map((thought) => <p key={thought}>{thought}</p>)}
             </CardContent>
           </Card>
         </div>
-      </section>
 
-      <section className="px-6 pb-16 sm:px-10 lg:px-16">
-        <div className="mx-auto max-w-7xl rounded-3xl border border-slate-800 bg-slate-900/70 p-6 text-sm text-slate-400 shadow-xl shadow-black/20">
-          <p className="mb-3 font-semibold uppercase tracking-[0.22em] text-slate-300">Content integrity checks</p>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="rounded-lg border border-zinc-200 bg-white p-6 text-sm text-zinc-600">
+          <p className="mb-3 font-medium uppercase tracking-[0.18em] text-zinc-500">Content integrity checks</p>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {testCases.map((test) => (
-              <div key={test.name} className="flex items-center justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3">
+              <div key={test.name} className="flex items-center justify-between gap-4 rounded-md border border-zinc-200 bg-zinc-50 px-4 py-3">
                 <span>{test.name}</span>
-                <span className={test.pass ? "text-emerald-300" : "text-rose-300"}>{test.pass ? "pass" : "fail"}</span>
+                <span className={test.pass ? "text-zinc-950" : "text-red-600"}>{test.pass ? "pass" : "fail"}</span>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
-      <footer className="border-t border-white/10 bg-slate-950 px-6 py-8 sm:px-10 lg:px-16">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm leading-6 text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <footer className="border-t border-zinc-200 bg-white px-6 py-8 sm:px-10">
+        <div className="mx-auto flex max-w-5xl flex-col gap-3 text-sm leading-6 text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
           <p>{article.workshopName} · {article.qualifier}</p>
           <p>All details are rendered from the complete Markdown article supplied in this conversation.</p>
         </div>
