@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Setting up the Sim-to-Real SO-101 Workshop on NVIDIA GB10 using GROOT N1.6: every issue hit and how it was fixed.">
+  <title>Sim-to-Real SO-101 on NVIDIA GB10</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #020617; }
+    ::selection { background: rgba(52, 211, 153, 0.28); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const cx = (...classes) => classes.filter(Boolean).join(' ');
+    function Card({ className = '', children, ...props }) {
+      return <div className={cx('rounded-lg border border-slate-800 bg-slate-900 text-slate-100 shadow-sm', className)} {...props}>{children}</div>;
+    }
+    function CardHeader({ className = '', children, ...props }) {
+      return <div className={cx('flex flex-col space-y-1.5 p-6', className)} {...props}>{children}</div>;
+    }
+    function CardTitle({ className = '', children, ...props }) {
+      return <h3 className={cx('text-2xl font-semibold leading-none tracking-tight', className)} {...props}>{children}</h3>;
+    }
+    function CardContent({ className = '', children, ...props }) {
+      return <div className={cx('p-6 pt-0', className)} {...props}>{children}</div>;
+    }
+    function Badge({ className = '', children, ...props }) {
+      return <span className={cx('inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold transition-colors', className)} {...props}>{children}</span>;
+    }
+    function Separator({ className = '', ...props }) {
+      return <div className={cx('h-px w-full shrink-0 bg-slate-800', className)} {...props} />;
+    }
+    function Button({ className = '', children, ...props }) {
+      return <button className={cx('inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors', className)} {...props}>{children}</button>;
+    }
+
+
+const article = {
+  title:
+    "Setting Up the Sim-to-Real SO-101 Workshop on NVIDIA GB10 using GROOT N1.6",
+  qualifier: "Blackwell ARM64",
+  subtitle: "Every Issue I Hit and How I Fixed It",
+  author: "Kabilankb",
+  readTime: "5 min read",
+  date: "May 2026",
+  workshopName: "NVIDIA Sim-to-Real SO-101 Workshop",
+  workshopDescription:
+    "An excellent pipeline for training robotic manipulation policies in simulation and deploying them onto real SO-101 robotic arms.",
+  setupContrast:
+    "On x86_64 systems, the setup is mostly straightforward. On the NVIDIA GB10 — the new DGX Spark platform with a Blackwell GPU and ARM64 (aarch64) CPU — it was anything but straightforward.",
+  debuggingSummary:
+    "What looked like a simple Docker setup quickly turned into a deep debugging session involving packaging, CUDA wheels, dynamic linker behavior, Docker mounts, Python compatibility, and hidden dependency wheels.",
+  outcome:
+    "This guide documents every issue encountered and the exact fixes that got the workshop running successfully on GB10.",
+};
+
+const introIssues = [
+  "ARM64 Python packaging inconsistencies",
+  "CUDA-enabled vs CPU-only PyTorch wheels",
+  "Dynamic linker TLS limits",
+  "Docker volume mismatches",
+  "Python version incompatibilities",
+  "Hidden dependency wheels buried inside repositories",
+];
+
+const arm64Reality = [
+  "Some package versions simply do not exist",
+  "CUDA-enabled wheels may be unavailable",
+  "Dependency ranges that work on x86 silently fail",
+  "Dynamic linker behavior differs from x86_64",
+  "ML tooling support often lags behind newer Python versions",
+];
+
+const environmentRows = [
+  ["Hardware", "NVIDIA GB10 (DGX Spark, Blackwell)"],
+  ["Architecture", "aarch64"],
+  ["OS", "Ubuntu 24.04.2 LTS"],
+  ["Kernel", "6.17.0–1008-nvidia"],
+  ["CUDA", "13.0"],
+  ["Driver", "580.126.09"],
+  ["GPU Memory", "~92 GB unified memory"],
+];
+
+const fixes = [
+  {
+    number: "01",
+    title: "torchcodec Versions Don’t Exist on ARM64",
+    category: "Package availability",
+    problem:
+      "The first Docker build failed immediately. Inside docker/sim/Dockerfile, the workshop pinned torchcodec>=0.2.1,<0.6.0. That range exists on x86_64, but not on aarch64. ARM64 package history jumps directly from early 0.0.x releases to 0.11.x, so pip correctly reports that no matching distribution was found.",
+    fix:
+      "Update the dependency range to a version range that actually exists for ARM64.",
+    whyItMatters:
+      "This looked like a network or pip problem at first, but the versions literally never existed for ARM64.",
+    codeLabel: "docker/sim/Dockerfile",
+    code: [
+      '- "torchcodec>=0.2.1,<0.6.0" \\',
+      '+ "torchcodec>=0.11.0,<0.12.0" \\',
+    ],
+  },
+  {
+    number: "02",
+    title: "pip Silently Replaced CUDA PyTorch with CPU PyTorch",
+    category: "CUDA wheel preservation",
+    problem:
+      "The Docker image built successfully, but Isaac Sim crashed with CUDA initialization errors. Torch could no longer see the GPU. The base Isaac Lab container already included an NVIDIA CUDA-enabled PyTorch build, but the Dockerfile pinned torch==2.7.0. On aarch64, pip installed the CPU-only wheel from PyPI and silently replaced the GPU build because the version technically matched.",
+    fix:
+      "Capture the exact installed torch and torchvision versions from the base image so the NVIDIA-provided CUDA-enabled builds are preserved.",
+    whyItMatters:
+      "There were no warnings and no obvious install errors — just broken CUDA at runtime.",
+    codeLabel: "constraints generation",
+    code: [
+      "RUN printf '%s\\n' \\",
+      '    "packaging==23.0" \\',
+      '    "numpy==1.26.0" \\',
+      '    "lxml==4.9.4" \\',
+      '-   "torch==2.7.0" \\',
+      '-   "torchvision==0.22.0" \\',
+      '+   "torch==$($PYTHON -c \'import torch; print(torch.__version__)\')" \\',
+      '+   "torchvision==$($PYTHON -c \'import torchvision; print(torchvision.__version__)\')" \\',
+      '    "imageio==2.37.0" \\',
+      "    > /tmp/constraints.txt",
+    ],
+  },
+  {
+    number: "03",
+    title: "triton==3.3.1 Doesn’t Exist for ARM64",
+    category: "Unsupported dependency strip",
+    problem:
+      "While building the real robot container, docker/real/Dockerfile.blackwell failed because triton==3.3.1 does not exist for aarch64. Only newer Triton versions are published for ARM64.",
+    fix:
+      "Add Triton to the existing sed-based removal list for unsupported packages.",
+    whyItMatters:
+      "This is safe in this setup because Triton is later bundled through the PyTorch nightly CUDA build anyway.",
+    codeLabel: "docker/real/Dockerfile.blackwell",
+    code: [
+      "sed -i '/flash-attn==/d' pyproject.toml && \\",
+      "+ sed -i '/triton==3.3.1/d' pyproject.toml && \\",
+    ],
+  },
+  {
+    number: "04",
+    title: "Static TLS Exhaustion",
+    category: "Dynamic linker limits",
+    problem:
+      "The container built correctly and Python launched correctly. Then Isaac Sim started loading extensions and failed with libgomp.so.1: cannot allocate memory in static TLS block, followed by many Omniverse extension failures. On ARM64, the dynamic linker allocates a fixed-size static TLS region at process startup. Isaac Sim loads enough libraries — PyTorch, USD, PhysX, Hydra, OpenMP, Omniverse extensions, and CUDA runtime libraries — to exhaust that region.",
+    fix:
+      "Preload libgomp so it gets TLS allocation early, and expand available optional static TLS space with GLIBC_TUNABLES.",
+    whyItMatters:
+      "The error message gives very little indication of the actual fix. On x86_64 this rarely appears because defaults are typically larger.",
+    codeLabel: "Docker run environment",
+    code: [
+      "-e LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1",
+      "-e GLIBC_TUNABLES=glibc.rtld.optional_static_tls=2048",
+    ],
+    table: [
+      ["LD_PRELOAD", "Loads libgomp first so it gets TLS allocation early"],
+      ["GLIBC_TUNABLES", "Expands available static TLS space"],
+    ],
+    callout:
+      "If you see cannot allocate memory in static TLS block on ARM64, this is likely the solution.",
+  },
+  {
+    number: "05",
+    title: "Docker Volume Mount Path Was Wrong",
+    category: "Workspace mount verification",
+    problem:
+      "The workshop documentation referenced ~/sim2real/Sim-to-Real-SO-101-Workshop/, but the actual repository lived at ~/Sim-to-Real-SO-101-Workshop/. The container started normally, but the workspace inside the container was empty: no scripts, no source code, and no entrypoints.",
+    fix:
+      "Correct the host mount path so the real repository is mounted into the container workspace.",
+    whyItMatters:
+      "A container can start successfully even when the workspace mount points to the wrong empty path. Always verify mounted directories actually contain what you expect.",
+    codeLabel: "docker volume mount",
+    code: [
+      "- -v ~/sim2real/Sim-to-Real-SO-101-Workshop:/workspace/Sim-to-Real-SO-101-Workshop",
+      "+ -v ~/Sim-to-Real-SO-101-Workshop:/workspace/Sim-to-Real-SO-101-Workshop",
+    ],
+  },
+  {
+    number: "06",
+    title: "Isaac GR00T Requires Python 3.10",
+    category: "Python compatibility",
+    problem:
+      "The GB10 ships Python 3.13 by default. Isaac GR00T does not support it. GR00T also depends on torchcodec==0.10.0a0, which is unavailable on PyPI for ARM64.",
+    fix:
+      "Create a Python 3.10 environment, clone Isaac-GR00T, install the bundled ARM64 torchcodec wheel from scripts/deployment/dgpu/wheels/, then install GR00T in editable mode.",
+    whyItMatters:
+      "The solution is hidden in the repository itself: a prebuilt ARM64 wheel ships inside scripts/deployment/dgpu/wheels/.",
+    codeLabel: "Isaac GR00T setup",
+    code: [
+      "# Create Python 3.10 environment",
+      "conda create -n gr00t python=3.10 -y",
+      "conda activate gr00t",
+      "",
+      "# Clone repository",
+      "git clone https://github.com/NVIDIA/Isaac-GR00T.git",
+      "cd Isaac-GR00T",
+      "",
+      "# Install bundled wheel",
+      "pip install scripts/deployment/dgpu/wheels/torchcodec-0.10.0a0-cp310-cp310-linux_aarch64.whl",
+      "",
+      "# Install GR00T",
+      "pip install -e .",
+    ],
+  },
+];
+
+const tlsLibraries = ["PyTorch", "USD", "PhysX", "Hydra", "OpenMP (libgomp)", "Omniverse extensions", "CUDA runtime libraries"];
+
+const runTeleopScript = [
+  "#!/bin/bash",
+  "xhost +",
+  "",
+  "docker run --name teleop -it --privileged --gpus all \\",
+  '  -e "ACCEPT_EULA=Y" \\',
+  '  -e "PRIVACY_CONSENT=Y" \\',
+  "  -e DISPLAY \\",
+  "  -e LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1 \\",
+  "  -e GLIBC_TUNABLES=glibc.rtld.optional_static_tls=2048 \\",
+  "  --rm --network=host \\",
+  "  -v /dev:/dev \\",
+  "  -v /run/udev:/run/udev:ro \\",
+  '  -v "$HOME/.Xauthority:/root/.Xauthority" \\',
+  '  -v "$HOME/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/cache/ov:/root/.cache/ov:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/cache/pip:/root/.cache/pip:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/data:/root/.local/share/ov/data:rw" \\',
+  '  -v "$HOME/docker/isaac-sim/documents:/root/Documents:rw" \\',
+  '  -v "$HOME/.cache/huggingface/lerobot/calibration:/root/.cache/huggingface/lerobot/calibration" \\',
+  '  -v "$HOME/Sim-to-Real-SO-101-Workshop/docker/env:/root/env" \\',
+  '  -v "$HOME/Sim-to-Real-SO-101-Workshop:/workspace/Sim-to-Real-SO-101-Workshop" \\',
+  "  teleop-docker:latest",
+];
+
+const takeaways = [
+  {
+    title: "ARM64 Package Availability",
+    text: "Many dependency versions simply do not exist on aarch64. Always verify package availability before assuming pip is broken.",
+  },
+  {
+    title: "CUDA vs CPU PyTorch Builds",
+    text: "Version constraints can silently replace GPU-enabled PyTorch with CPU-only wheels. On ARM64, exact version matching matters.",
+  },
+  {
+    title: "ARM64 Dynamic Linker Limits",
+    text: "Isaac Sim loads enough libraries to hit ARM64 TLS allocation limits. This does not commonly appear on x86_64 systems.",
+  },
+  {
+    title: "Python Version Compatibility",
+    text: "Modern Linux systems may ship Python versions newer than what ML tooling supports. Python 3.10 is still the safest target for many robotics stacks.",
+  },
+];
+
+const finalThoughts = [
+  "Once these issues are resolved, the GB10 becomes an impressive robotics development platform.",
+  "The combination of Blackwell GPU architecture, ~92 GB unified memory, CUDA 13, and a compact desktop form factor makes it a compelling system for sim-to-real workflows.",
+  "The main challenge is simply getting through the ARM64 ecosystem friction.",
+  "Hopefully this saves someone else several hours of debugging.",
+];
+
+const platformHighlights = ["Blackwell GPU architecture", "~92 GB unified memory", "CUDA 13", "Compact desktop form factor"];
+
+const testCases = [
+  {
+    name: "all six fixes are represented",
+    pass: fixes.length === 6,
+  },
+  {
+    name: "environment table includes CUDA 13 and driver 580.126.09",
+    pass:
+      environmentRows.some(([key, value]) => key === "CUDA" && value === "13.0") &&
+      environmentRows.some(([key, value]) => key === "Driver" && value === "580.126.09"),
+  },
+  {
+    name: "final script includes both ARM64 TLS workarounds",
+    pass:
+      runTeleopScript.some((line) => line.includes("LD_PRELOAD=/usr/lib/aarch64-linux-gnu/libgomp.so.1")) &&
+      runTeleopScript.some((line) => line.includes("GLIBC_TUNABLES=glibc.rtld.optional_static_tls=2048")),
+  },
+  {
+    name: "final script uses the corrected repository mount path",
+    pass: runTeleopScript.some((line) => line.includes('$HOME/Sim-to-Real-SO-101-Workshop:/workspace/Sim-to-Real-SO-101-Workshop')),
+  },
+  {
+    name: "GR00T setup captures Python 3.10 and the bundled ARM64 wheel",
+    pass:
+      fixes[5].code.some((line) => line.includes("python=3.10")) &&
+      fixes[5].code.some((line) => line.includes("torchcodec-0.10.0a0-cp310-cp310-linux_aarch64.whl")),
+  },
+  {
+    name: "takeaways cover all four source lessons",
+    pass: takeaways.length === 4,
+  },
+];
+
+function runContentModelTests() {
+  testCases.forEach((test) => {
+    console.assert(test.pass, `Canvas content test failed: ${test.name}`);
+  });
+}
+
+function InlineGlyph({ label, className = "" }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-flex shrink-0 items-center justify-center rounded-xl border border-current/20 bg-current/10 font-mono text-[0.64rem] font-bold uppercase tracking-wider ${className}`}
+    >
+      {label}
+    </span>
+  );
+}
+
+function ArrowIcon({ className = "" }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M7 17L17 7" />
+      <path d="M8 7h9v9" />
+    </svg>
+  );
+}
+
+function CircuitIcon({ className = "" }) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect x="7" y="7" width="10" height="10" rx="2" />
+      <path d="M4 9h3" />
+      <path d="M4 15h3" />
+      <path d="M17 9h3" />
+      <path d="M17 15h3" />
+      <path d="M9 4v3" />
+      <path d="M15 4v3" />
+      <path d="M9 17v3" />
+      <path d="M15 17v3" />
+    </svg>
+  );
+}
+
+function CodeBlock({ lines, label }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/90 shadow-inner shadow-black/30">
+      {label ? <div className="border-b border-slate-800 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{label}</div> : null}
+      <pre className="overflow-x-auto p-4 text-xs leading-6 text-slate-200 sm:text-sm">
+        <code>{lines.join("\n")}</code>
+      </pre>
+    </div>
+  );
+}
+
+function MiniTable({ rows }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-slate-800">
+      <table className="w-full border-collapse text-left text-sm">
+        <tbody>
+          {rows.map(([key, value]) => (
+            <tr key={key} className="border-b border-slate-800 last:border-b-0">
+              <th className="w-40 bg-slate-950/70 px-4 py-3 font-semibold text-slate-200">{key}</th>
+              <td className="px-4 py-3 text-slate-300">{value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function SectionLabel({ children }) {
+  return <p className="text-xs font-semibold uppercase tracking-[0.24em] text-emerald-300">{children}</p>;
+}
+
+function SimToRealSo101WorkshopCanvas() {
+  React.useMemo(() => runContentModelTests(), []);
+
+  return (
+    <main className="min-h-screen bg-slate-950 text-slate-100">
+      <section className="relative isolate overflow-hidden px-6 py-10 sm:px-10 lg:px-16">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(34,197,94,0.24),transparent_34%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.18),transparent_28%),linear-gradient(135deg,#020617,#0f172a_45%,#111827)]" />
+        <div className="absolute left-1/2 top-0 -z-10 h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
+
+        <div className="mx-auto max-w-7xl space-y-8">
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge className="border-emerald-400/40 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20">Robotics Workshop</Badge>
+            <Badge className="border-blue-400/40 bg-blue-400/10 text-blue-200 hover:bg-blue-400/20">NVIDIA GB10</Badge>
+            <Badge className="border-violet-400/40 bg-violet-400/10 text-violet-200 hover:bg-violet-400/20">{article.qualifier}</Badge>
+            <Badge className="border-amber-400/40 bg-amber-400/10 text-amber-200 hover:bg-amber-400/20">GROOT N1.6</Badge>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+            <div className="space-y-6">
+              <div className="space-y-4">
+                <SectionLabel>{article.subtitle}</SectionLabel>
+                <h1 className="max-w-5xl text-4xl font-semibold tracking-tight text-white sm:text-5xl lg:text-6xl">{article.title}</h1>
+                <p className="max-w-4xl text-lg leading-8 text-slate-300">{article.workshopDescription}</p>
+              </div>
+              <div className="flex flex-wrap gap-3 text-sm text-slate-300">
+                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">{article.author}</span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">{article.readTime}</span>
+                <span className="rounded-full border border-white/10 bg-white/10 px-4 py-2">{article.date}</span>
+              </div>
+            </div>
+
+            <Card className="rounded-3xl border-white/10 bg-white/10 text-slate-100 shadow-2xl shadow-black/30 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-xl"><CircuitIcon className="h-5 w-5 text-emerald-300" /> GB10 Porting Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-5 text-sm leading-6 text-slate-300">
+                <p>{article.setupContrast}</p>
+                <Separator className="bg-white/10" />
+                <p>{article.debuggingSummary}</p>
+                <p className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-emerald-100">{article.outcome}</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <SectionLabel>Why everything breaks</SectionLabel>
+              <CardTitle className="text-3xl">ARM64 is not x86_64 with a different label</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5 text-base leading-8 text-slate-300">
+              <p>Almost every issue came down to one reality:</p>
+              <blockquote className="rounded-3xl border-l-4 border-emerald-300 bg-slate-950/70 p-6 text-2xl font-semibold leading-10 text-white shadow-inner shadow-black/20">The ARM64 Python ecosystem is very different from x86_64.</blockquote>
+              <p>If you are used to pip install “just working” on a desktop workstation, ARM64 will force you to understand what your dependencies are actually doing.</p>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <CardTitle className="text-2xl">Debugging Surface Area</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {introIssues.map((issue, index) => (
+                  <div key={issue} className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 transition hover:-translate-y-0.5 hover:border-emerald-400/40 hover:bg-slate-900">
+                    <InlineGlyph label={`0${index + 1}`} className="mb-4 h-11 w-11 text-emerald-300" />
+                    <p className="font-medium leading-6 text-slate-100">{issue}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[1fr_1fr]">
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <SectionLabel>On aarch64</SectionLabel>
+              <CardTitle className="text-2xl">What changes</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-3">
+                {arm64Reality.map((item) => (
+                  <div key={item} className="rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-slate-300">{item}</div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <SectionLabel>Environment</SectionLabel>
+              <CardTitle className="text-2xl">Hardware & Software</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <MiniTable rows={environmentRows} />
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-7xl space-y-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <SectionLabel>Applied fixes</SectionLabel>
+              <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">Every issue and exact remediation</h2>
+            </div>
+            <Badge className="w-fit border-emerald-400/40 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20">6 fixes</Badge>
+          </div>
+
+          {fixes.map((fix) => (
+            <Card key={fix.number} className="overflow-hidden rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+              <CardContent className="grid gap-6 p-6 lg:grid-cols-[0.72fr_1.28fr] lg:p-8">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <InlineGlyph label={fix.number} className="h-12 w-12 text-emerald-300" />
+                    <Badge className="border-slate-700 bg-slate-950 text-slate-300 hover:bg-slate-900">{fix.category}</Badge>
+                  </div>
+                  <h3 className="text-2xl font-semibold tracking-tight text-white">{fix.title}</h3>
+                  <div className="space-y-3 text-sm leading-6 text-slate-300">
+                    <p><span className="font-semibold text-rose-200">Problem:</span> {fix.problem}</p>
+                    <p><span className="font-semibold text-emerald-200">Fix:</span> {fix.fix}</p>
+                    <p><span className="font-semibold text-blue-200">Why it mattered:</span> {fix.whyItMatters}</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <CodeBlock label={fix.codeLabel} lines={fix.code} />
+                  {fix.table ? <MiniTable rows={fix.table} /> : null}
+                  {fix.callout ? <div className="rounded-2xl border border-amber-300/30 bg-amber-300/10 p-4 text-sm leading-6 text-amber-100">{fix.callout}</div> : null}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-7xl">
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <SectionLabel>Static TLS detail</SectionLabel>
+              <CardTitle className="text-2xl">Why the libgomp failure cascaded</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-5 text-slate-300">
+              <p className="leading-8">On ARM64, the dynamic linker allocates a fixed-size static TLS region at process startup. Every shared library using thread-local variables consumes part of this region. Isaac Sim loads a massive number of libraries, eventually filling the region.</p>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {tlsLibraries.map((library) => (
+                  <div key={library} className="rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-sm text-slate-300">{library}</div>
+                ))}
+              </div>
+              <div className="rounded-2xl border border-rose-400/20 bg-rose-400/10 p-4 font-mono text-sm text-rose-100">libgomp.so.1: cannot allocate memory in static TLS block</div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-7xl">
+          <Card className="overflow-hidden rounded-3xl border-emerald-400/20 bg-gradient-to-br from-emerald-400/15 via-slate-900 to-blue-500/10 text-slate-100 shadow-2xl shadow-black/30">
+            <CardHeader>
+              <SectionLabel>Complete launcher</SectionLabel>
+              <CardTitle className="text-3xl">Final run_teleop.sh with all ARM64 fixes applied</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CodeBlock label="run_teleop.sh" lines={runTeleopScript} />
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-7xl space-y-6">
+          <div>
+            <SectionLabel>Key takeaways</SectionLabel>
+            <h2 className="mt-2 text-3xl font-semibold tracking-tight text-white">What to expect when bringing SO-101 to ARM64 Blackwell systems</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {takeaways.map((takeaway, index) => (
+              <Card key={takeaway.title} className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+                <CardContent className="space-y-4 p-6">
+                  <InlineGlyph label={`${index + 1}`} className="h-10 w-10 text-emerald-300" />
+                  <h3 className="text-xl font-semibold text-white">{takeaway.title}</h3>
+                  <p className="leading-7 text-slate-300">{takeaway.text}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 pb-10 sm:px-10 lg:px-16">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <SectionLabel>GB10 after the fixes</SectionLabel>
+              <CardTitle className="text-2xl">Why it is compelling</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-3">
+              {platformHighlights.map((item) => (
+                <div key={item} className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-4 py-3 text-emerald-100">{item}</div>
+              ))}
+            </CardContent>
+          </Card>
+
+          <Card className="rounded-3xl border-slate-800 bg-slate-900/80 text-slate-100 shadow-xl shadow-black/20">
+            <CardHeader>
+              <SectionLabel>Final thoughts</SectionLabel>
+              <CardTitle className="text-2xl">The bottleneck is ecosystem friction</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4 text-base leading-8 text-slate-300">
+              {finalThoughts.map((thought) => <p key={thought}>{thought}</p>)}
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="px-6 pb-16 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-7xl rounded-3xl border border-slate-800 bg-slate-900/70 p-6 text-sm text-slate-400 shadow-xl shadow-black/20">
+          <p className="mb-3 font-semibold uppercase tracking-[0.22em] text-slate-300">Content integrity checks</p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {testCases.map((test) => (
+              <div key={test.name} className="flex items-center justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/70 px-4 py-3">
+                <span>{test.name}</span>
+                <span className={test.pass ? "text-emerald-300" : "text-rose-300"}>{test.pass ? "pass" : "fail"}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <footer className="border-t border-white/10 bg-slate-950 px-6 py-8 sm:px-10 lg:px-16">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 text-sm leading-6 text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+          <p>{article.workshopName} · {article.qualifier}</p>
+          <p>All details are rendered from the complete Markdown article supplied in this conversation.</p>
+        </div>
+      </footer>
+    </main>
+  );
+}
+
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<SimToRealSo101WorkshopCanvas />);
+  </script>
+</body>
+</html>
