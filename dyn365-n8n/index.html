@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Dynamics 365 + n8n — Landscape · Mai 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','Segoe UI','Roboto','Arial','sans-serif'] },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(148,163,184,.13), 0 28px 90px rgba(2,6,23,.72)',
+            cyan: '0 0 44px rgba(34,211,238,.16)',
+            emerald: '0 0 44px rgba(16,185,129,.15)',
+            violet: '0 0 44px rgba(139,92,246,.17)',
+            amber: '0 0 44px rgba(245,158,11,.13)'
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    :root { color-scheme: dark; }
+    body {
+      background:
+        radial-gradient(circle at 10% -5%, rgba(34,211,238,.17), transparent 34rem),
+        radial-gradient(circle at 92% 4%, rgba(139,92,246,.18), transparent 34rem),
+        radial-gradient(circle at 45% 105%, rgba(16,185,129,.11), transparent 44rem),
+        linear-gradient(180deg, #020617 0%, #050816 54%, #030712 100%);
+    }
+    .page { width: min(1540px, calc(100% - 32px)); }
+    .glass { background: linear-gradient(180deg, rgba(15,23,42,.90), rgba(15,23,42,.66)); border: 1px solid rgba(148,163,184,.16); }
+    .glass2 { background: linear-gradient(180deg, rgba(30,41,59,.78), rgba(15,23,42,.72)); border: 1px solid rgba(148,163,184,.14); }
+    .panel { background: rgba(2,6,23,.56); border: 1px solid rgba(148,163,184,.16); }
+    .grid-bg { background-image: linear-gradient(rgba(148,163,184,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.05) 1px, transparent 1px); background-size: 34px 34px; }
+    .bar { height: .68rem; border-radius: 999px; overflow: hidden; background: rgba(51,65,85,.82); }
+    .bar > span { display:block; height:100%; border-radius:999px; }
+    .mono { font-variant-numeric: tabular-nums; }
+    .source a { color: #67e8f9; text-decoration: none; }
+    .source a:hover { text-decoration: underline; }
+    @media print { body { background:#020617 !important; } .page { width:100%; } section { break-inside: avoid; } a { color:inherit; text-decoration:none; } }
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased">
+<main class="page mx-auto py-8 md:py-12 space-y-8">
+<section class="relative overflow-hidden rounded-[2.25rem] border border-cyan-300/20 bg-slate-950/90 shadow-glow grid-bg">
+<div class="absolute -right-28 -top-28 h-96 w-96 rounded-full bg-cyan-400/15 blur-3xl"></div>
+<div class="absolute -left-24 top-28 h-80 w-80 rounded-full bg-violet-500/15 blur-3xl"></div>
+<div class="absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl"></div>
+<div class="relative p-8 md:p-10 lg:p-12">
+<div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+<div class="max-w-5xl">
+
+<div class="inline-flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-cyan-100">
+<span class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-2">Microsoft Dynamics CRM</span>
+<span class="rounded-full border border-violet-300/20 bg-violet-300/10 px-3 py-2">Dataverse</span>
+<span class="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-2">Business Central</span>
+<span class="rounded-full border border-slate-300/20 bg-slate-300/10 px-3 py-2">n8n Workflows</span>
+</div><h1 class="mt-6 text-4xl font-black tracking-tight md:text-6xl lg:text-7xl">
+              Dynamics 365 <span class="bg-gradient-to-r from-cyan-300 via-emerald-300 to-violet-300 bg-clip-text text-transparent">+ n8n</span>
+</h1>
+<p class="mt-5 max-w-4xl text-xl leading-8 text-slate-300">Integrationslandschaft für Dynamics 365, Dataverse und Business Central mit n8n: offizielle Nodes, API-Wege, Workflow-Templates, Community-Nodes, Anbieter und Kundenreferenzlage.</p>
+<p class="mt-4 max-w-4xl text-sm leading-6 text-slate-400">Relevante Einsatzfelder sind Account-Automation, Business-Central-API-Orchestrierung, Dataverse-Record-Operationen, Commerce-to-ERP und agentenbasierter Datenzugriff.</p>
+</div>
+<div class="grid min-w-[300px] gap-4 sm:grid-cols-3 lg:grid-cols-1">
+<div class="glass rounded-3xl p-5 shadow-cyan">
+<div class="text-xs uppercase tracking-[.22em] text-cyan-200/80">Produktfähigkeit</div>
+<div class="mt-2 flex items-end gap-1"><span class="text-5xl font-black mono">ja</span></div>
+<p class="mt-3 text-sm text-slate-400">Offizieller CRM-Node, HTTP/API-Pfad für Business Central, Templates, Community-Nodes und Vendor-Guide.</p>
+</div>
+<div class="glass rounded-3xl p-5 shadow-amber">
+<div class="text-xs uppercase tracking-[.22em] text-amber-200/80">Öffentliche Kundenreferenzen</div>
+<div class="mt-2 flex items-end gap-1"><span class="text-5xl font-black mono">0</span><span class="pb-2 text-xl text-slate-400">öffentlich</span></div>
+<p class="mt-3 text-sm text-slate-400">Keine namentliche öffentliche Kundenfallstudie, die Kunde, Dynamics 365 und n8n gemeinsam nennt.</p>
+</div>
+<div class="glass rounded-3xl p-5 shadow-violet">
+<div class="text-xs uppercase tracking-[.22em] text-violet-200/80">Empfohlene Einordnung</div>
+<div class="mt-2 text-3xl font-black">API‑first</div>
+<p class="mt-3 text-sm text-slate-400">n8n ist hier primär Orchestrierungs‑Layer für APIs, Agenten, Datenflüsse und Cross‑System‑Prozesse.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="grid gap-6">
+<div class="glass rounded-[2rem] p-6 shadow-glow">
+<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+<div>
+<h2 class="text-3xl font-black tracking-tight">Integrationswege, Nodes und Templates</h2>
+<p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Direkte Artefakte und Anbieterpfade für Dynamics 365 / Dataverse / Business Central in n8n.</p>
+</div>
+<div class="rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm font-bold text-cyan-100">Dynamics 365 / Dataverse / Business Central + n8n</div>
+</div>
+<div class="mt-6 overflow-hidden rounded-3xl border border-slate-700/80">
+<table class="w-full min-w-[1040px] text-left text-sm">
+<thead class="bg-slate-900/95 text-xs uppercase tracking-[.18em] text-slate-400">
+<tr><th class="p-4">Gegenstand</th><th class="p-4">Funktionsumfang / Aussage</th><th class="p-4">Quelle / Typ</th><th class="p-4">Reifegrad</th><th class="p-4">Nutzung</th></tr>
+</thead>
+<tbody class="divide-y divide-slate-800 bg-slate-950/40 align-top">
+<tr><td class="p-4 font-bold text-white">n8n Microsoft Dynamics CRM Node</td><td class="p-4 text-slate-300">Offizieller n8n‑Node; unterstützt öffentlich dokumentiert Account Create, Delete, Get, Get All und Update; für nicht unterstützte Operationen verweist n8n auf den HTTP Request Node.</td><td class="p-4 text-emerald-200">Offizielle n8n‑Doku</td><td class="p-4"><div class="bar w-28"><span class="w-[70%] bg-emerald-400"></span></div><div class="mt-1 text-xs text-slate-500">R3 · enger Scope</div></td><td class="p-4 text-slate-400">Schneller Start für Account‑Workflows.</td></tr>
+<tr><td class="p-4 font-bold text-white">Business Central API mit n8n</td><td class="p-4 text-slate-300">n8n beschreibt die Anbindung der Microsoft Dynamics 365 Business Central API über HTTP Request Node und nennt u. a. Customer‑Operationen wie GET, POST, PATCH und DELETE.</td><td class="p-4 text-emerald-200">n8n‑Integrationsseite</td><td class="p-4"><div class="bar w-28"><span class="w-[82%] bg-emerald-400"></span></div><div class="mt-1 text-xs text-slate-500">R4 · API‑first</div></td><td class="p-4 text-slate-400">Robuster Pfad für BC‑Integration.</td></tr>
+<tr><td class="p-4 font-bold text-white">Shopify → D365 Business Central Template</td><td class="p-4 text-slate-300">Öffentliches n8n‑Template: POS‑Orders werden als Sales Invoices, Web‑Orders als Business Central Sales Orders angelegt.</td><td class="p-4 text-cyan-200">n8n‑Workflow‑Template</td><td class="p-4"><div class="bar w-28"><span class="w-[64%] bg-cyan-400"></span></div><div class="mt-1 text-xs text-slate-500">R2–R3 · Template</div></td><td class="p-4 text-slate-400">Startpunkt für Commerce‑zu‑BC‑Prozesse.</td></tr>
+<tr><td class="p-4 font-bold text-white">Dynamics CRM MCP Server Template</td><td class="p-4 text-slate-300">Öffentliches n8n‑Template für MCP/AI‑Agenten; enthält alle fünf verfügbaren Dynamics‑CRM‑Account‑Operationen.</td><td class="p-4 text-cyan-200">n8n‑Workflow‑Template</td><td class="p-4"><div class="bar w-28"><span class="w-[56%] bg-cyan-400"></span></div><div class="mt-1 text-xs text-slate-500">R2 · AI‑Tooling</div></td><td class="p-4 text-slate-400">Account‑bezogene Agentenwerkzeuge.</td></tr>
+<tr><td class="p-4 font-bold text-white">KTC Business Central Community Node</td><td class="p-4 text-slate-300">GitHub‑Repository für einen n8n‑Community‑Node zu Business Central; README nennt Zugriff auf OData‑Endpunkte und CRUD‑Zielbild, aktuell aber nur Read‑Support.</td><td class="p-4 text-cyan-200">GitHub‑Artefakt</td><td class="p-4"><div class="bar w-28"><span class="w-[38%] bg-amber-400"></span></div><div class="mt-1 text-xs text-slate-500">R1–R2 · früh</div></td><td class="p-4 text-slate-400">Read‑Pilot; Writes besser API‑first.</td></tr>
+<tr><td class="p-4 font-bold text-white">Microsoft Dataverse Community Node</td><td class="p-4 text-slate-300">GitHub‑Repository für einen n8n‑Community‑Node zu Microsoft Dataverse; dokumentiert Create, Delete, Get, Get Many, Update, Upsert und weitere Dataverse‑Operationen.</td><td class="p-4 text-cyan-200">GitHub‑Artefakt</td><td class="p-4"><div class="bar w-28"><span class="w-[60%] bg-violet-400"></span></div><div class="mt-1 text-xs text-slate-500">R2–R3 · Community</div></td><td class="p-4 text-slate-400">PoC/Pilot; Produktion nur nach Review.</td></tr>
+<tr><td class="p-4 font-bold text-white">CData Connect AI + Dynamics 365 + n8n</td><td class="p-4 text-slate-300">CData beschreibt einen Remote‑MCP‑Ansatz, mit dem n8n sicher lesend und handelnd auf Dynamics‑365‑Daten zugreifen kann.</td><td class="p-4 text-fuchsia-200">Vendor‑Guide</td><td class="p-4"><div class="bar w-28"><span class="w-[70%] bg-fuchsia-400"></span></div><div class="mt-1 text-xs text-slate-500">R3 · Vendor‑Pfad</div></td><td class="p-4 text-slate-400">Datenzugriff, Agenten, Analytics‑Brücken.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+</section>
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+<h2 class="text-3xl font-black tracking-tight">Integrations- und Projektmuster</h2>
+<p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Kernmuster aus Nodes, APIs, Templates und Vendor-Guides.</p>
+<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+<div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-emerald-200">CRM / Account</div><h3 class="mt-3 text-xl font-black text-white">Account‑Daten automatisieren</h3><p class="mt-2 text-sm text-slate-400">Create, Delete, Get, Get All und Update für Microsoft Dynamics CRM Accounts über den offiziellen n8n‑Node.</p><p class="mt-3 text-xs text-slate-500">Quelle: n8n Docs.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-cyan-200">CRM / API</div><h3 class="mt-3 text-xl font-black text-white">Nicht unterstützte CRM‑Operationen</h3><p class="mt-2 text-sm text-slate-400">Wenn der Node eine gewünschte Operation nicht unterstützt, empfiehlt n8n den HTTP Request Node mit vorhandenen Credentials.</p><p class="mt-3 text-xs text-slate-500">Quelle: n8n Docs.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-emerald-200">Business Central</div><h3 class="mt-3 text-xl font-black text-white">BC‑API‑Workflows</h3><p class="mt-2 text-sm text-slate-400">Business‑Central‑Daten über HTTP Request und API‑Endpunkte lesen, erstellen, aktualisieren oder löschen.</p><p class="mt-3 text-xs text-slate-500">Quelle: n8n Integrationsseite.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-violet-200">Dataverse</div><h3 class="mt-3 text-xl font-black text-white">Dataverse‑Record‑Operationen</h3><p class="mt-2 text-sm text-slate-400">Community‑Node mit Record‑Operationen inklusive Create, Delete, Get, Get Many, Update und Upsert.</p><p class="mt-3 text-xs text-slate-500">Quelle: GitHub wtyeung.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-amber-200">Commerce</div><h3 class="mt-3 text-xl font-black text-white">Shopify → Business Central</h3><p class="mt-2 text-sm text-slate-400">Template für Shopify‑Orders in Business Central Sales Orders oder Sales Invoices.</p><p class="mt-3 text-xs text-slate-500">Quelle: n8n Workflow Template.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-fuchsia-200">Agenten / MCP</div><h3 class="mt-3 text-xl font-black text-white">Dynamics‑Daten für Agenten</h3><p class="mt-2 text-sm text-slate-400">MCP‑basierte Nutzung von Dynamics‑365‑Daten in n8n‑Workflows und Agenten über CData oder Account‑Tooling per n8n‑Template.</p><p class="mt-3 text-xs text-slate-500">Quellen: CData, n8n Template.</p></div>
+</div>
+</section>
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+<div>
+<h2 class="text-3xl font-black tracking-tight">Öffentliche Kundenreferenzen</h2>
+<p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Keine namentlichen Endkundenreferenzen öffentlich dokumentiert, die Kunde, Dynamics 365 und n8n gemeinsam nennen.</p>
+</div>
+<div class="rounded-2xl border border-rose-300/20 bg-rose-300/10 px-4 py-3 text-sm font-bold text-rose-100">0 öffentlich</div>
+</div>
+<div class="mt-6 rounded-3xl border border-rose-300/20 bg-rose-300/10 p-6">
+<h3 class="text-xl font-black text-white">Keine namentlichen Dynamics-365+n8n-Endkundenreferenzen</h3>
+<p class="mt-2 max-w-4xl text-sm leading-6 text-rose-100/90">Für Angebots-, Pitch- oder Analystenmaterial keine konkreten Endkundenlogos als Dynamics-365+n8n-Referenz verwenden, sofern sie nicht separat vom Kunden oder Projektpartner freigegeben sind.</p>
+</div>
+</section>
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+<h2 class="text-3xl font-black tracking-tight">Belegte Beratungshäuser und Anbieter mit direktem Bezug</h2>
+<p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Akteure mit öffentlicher Positionierung zu Dynamics 365 / Dataverse / Business Central und n8n.</p>
+<div class="mt-6 overflow-hidden rounded-3xl border border-slate-700/80">
+<table class="w-full min-w-[1120px] text-left text-sm">
+<thead class="bg-slate-900/95 text-xs uppercase tracking-[.18em] text-slate-400"><tr><th class="p-4">Akteur</th><th class="p-4">Öffentlicher Bezug</th><th class="p-4">Grenze der Aussage</th><th class="p-4">Empfehlung</th></tr></thead>
+<tbody class="divide-y divide-slate-800 bg-slate-950/40 align-top">
+<tr><td class="p-4 font-bold text-white">KTC GmbH</td><td class="p-4 text-slate-300">Autor eines öffentlichen n8n‑Community‑Nodes für Microsoft Dynamics 365 Business Central.</td><td class="p-4 text-rose-200">Keine öffentliche Endkundenfallstudie im Node‑Repository.</td><td class="p-4 text-slate-400">Als technischer Ansprechpartner für BC‑Node‑Themen prüfen; Read‑Limit beachten.</td></tr>
+<tr><td class="p-4 font-bold text-white">Great Minds Consulting</td><td class="p-4 text-slate-300">Dynamics‑365‑Seite nennt Integration mit Dritt-/Enterprise‑Systemen über APIs und Automation‑Tools wie Power Automate und n8n; separate n8n‑Seite beschreibt Design, Deployment und Maintenance von n8n‑Workflows.</td><td class="p-4 text-rose-200">Keine namentliche D365+n8n‑Kundenreferenz; eigene n8n‑Seite weist keine offizielle n8n‑Affiliation aus.</td><td class="p-4 text-slate-400">Geeignet für Architektur-/Integrationsgespräch; konkrete Referenzen anfordern.</td></tr>
+<tr><td class="p-4 font-bold text-white">TechWize</td><td class="p-4 text-slate-300">Öffentliche n8n‑Implementation‑Services und auf derselben Seite sichtbare Dynamics‑365‑Consulting‑Positionierung für Sales, Customer Service, Finance, Supply Chain und Platform Integrations.</td><td class="p-4 text-rose-200">Keine öffentliche kombinierte n8n+D365‑Fallstudie auf der Seite.</td><td class="p-4 text-slate-400">Capability‑Kandidat; Projektbeispiele anfordern.</td></tr>
+<tr><td class="p-4 font-bold text-white">Veloxi Solutions</td><td class="p-4 text-slate-300">Website positioniert die Beratung explizit für Microsoft Power Platform, Dynamics 365, n8n orchestration und AI agents.</td><td class="p-4 text-rose-200">Keine namentliche Endkundenreferenz auf der Website.</td><td class="p-4 text-slate-400">Relevanter EU‑Anbieterkandidat für Microsoft+n8n‑Orchestrierung; Referenzen anfordern.</td></tr>
+<tr><td class="p-4 font-bold text-white">CData</td><td class="p-4 text-slate-300">Technischer Leitfaden für Dynamics‑365‑Daten in n8n‑Workflows und Agenten via CData Connect AI Remote MCP.</td><td class="p-4 text-rose-200">Technischer Vendor-Pfad, kein Beratungshaus.</td><td class="p-4 text-slate-400">Für Datenzugriff/Agenten evaluieren; Governance, Kosten und Vendor‑Lock‑in prüfen.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="grid gap-6 xl:grid-cols-[.9fr_1.1fr]">
+<div class="glass rounded-[2rem] p-6 shadow-glow">
+<h2 class="text-3xl font-black tracking-tight">Reifegrade</h2>
+<div class="mt-6 space-y-5">
+<div><div class="flex justify-between text-sm"><span class="font-bold text-white">Offizieller CRM‑Node</span><span class="mono text-slate-400">R3</span></div><div class="mt-2 bar"><span class="w-[70%] bg-gradient-to-r from-cyan-400 to-emerald-400"></span></div></div>
+<div><div class="flex justify-between text-sm"><span class="font-bold text-white">Business Central API via HTTP</span><span class="mono text-slate-400">R4</span></div><div class="mt-2 bar"><span class="w-[82%] bg-gradient-to-r from-emerald-400 to-cyan-400"></span></div></div>
+<div><div class="flex justify-between text-sm"><span class="font-bold text-white">Dataverse Community Node</span><span class="mono text-slate-400">R2–R3</span></div><div class="mt-2 bar"><span class="w-[60%] bg-gradient-to-r from-violet-400 to-cyan-400"></span></div></div>
+<div><div class="flex justify-between text-sm"><span class="font-bold text-white">KTC BC Community Node</span><span class="mono text-slate-400">R1–R2</span></div><div class="mt-2 bar"><span class="w-[38%] bg-gradient-to-r from-amber-400 to-rose-400"></span></div></div>
+<div><div class="flex justify-between text-sm"><span class="font-bold text-white">Direkte Kundenreferenzen</span><span class="mono text-slate-400">0 öffentlich</span></div><div class="mt-2 bar"><span class="w-[0%] bg-gradient-to-r from-rose-400 to-amber-400"></span></div></div>
+</div>
+</div>
+<div class="glass rounded-[2rem] p-6 shadow-glow">
+<h2 class="text-3xl font-black tracking-tight">Empfehlungen</h2>
+<div class="mt-6 grid gap-4 md:grid-cols-2">
+<div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-emerald-400/10 px-4 py-2 text-sm font-bold text-emerald-200">Go</div><h3 class="mt-4 text-xl font-black text-white">Business Central API‑first</h3><p class="mt-2 text-sm leading-6 text-slate-400">Für produktive BC‑Szenarien HTTP/API‑Workflow mit sauberer Auth, Pagination, Idempotenz und Fehlerbehandlung bauen.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-cyan-400/10 px-4 py-2 text-sm font-bold text-cyan-200">Go</div><h3 class="mt-4 text-xl font-black text-white">CRM Accounts nativ</h3><p class="mt-2 text-sm leading-6 text-slate-400">Offiziellen CRM‑Node für Account‑Use‑Cases nutzen, nicht für volle Sales-/Service‑Abdeckung überinterpretieren.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-violet-400/10 px-4 py-2 text-sm font-bold text-violet-200">Pilot</div><h3 class="mt-4 text-xl font-black text-white">Dataverse‑Node testen</h3><p class="mt-2 text-sm leading-6 text-slate-400">Für Dataverse‑Prototypen wertvoll; vor Produktion Code‑Review, Version‑Pinning, Security und Wartung prüfen.</p></div>
+<div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-rose-400/10 px-4 py-2 text-sm font-bold text-rose-200">No‑Go</div><h3 class="mt-4 text-xl font-black text-white">Endkundenlogos nur mit Freigabe</h3><p class="mt-2 text-sm leading-6 text-slate-400">Konkrete Endkunden, Logos oder Branchenbeispiele nur als Referenz nennen, wenn Kunde oder Projektpartner die Dynamics-365+n8n-Kombination freigegeben hat.</p></div>
+</div>
+</div>
+</section>
+<section class="source glass rounded-[2rem] p-6 shadow-glow">
+<h2 class="text-3xl font-black tracking-tight">Quellen</h2>
+
+<div class="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3 text-sm">
+<a class="glass2 rounded-2xl p-4" href="https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.microsoftdynamicscrm/" rel="noreferrer" target="_blank"><div class="font-black text-white">n8n Docs · Microsoft Dynamics CRM Node</div><p class="mt-1 text-slate-400">Offizielle Account‑Operationen und HTTP‑Fallback.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://n8n.io/integrations/microsoft-dynamics-365-business-central-api/and/microsoft-dynamics-crm/" rel="noreferrer" target="_blank"><div class="font-black text-white">n8n · Business Central API + CRM</div><p class="mt-1 text-slate-400">HTTP‑Request‑Pfad und BC/CRM‑Integrationsbeschreibung.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://n8n.io/workflows/2079-shopify-orders-to-d365-business-central-sales-orders-sales-invoices/" rel="noreferrer" target="_blank"><div class="font-black text-white">Workflow · Shopify → D365 BC</div><p class="mt-1 text-slate-400">Template für Sales Orders / Sales Invoices.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://n8n.io/workflows/5182-microsoft-dynamics-crm-tool-mcp-server-all-5-operations/" rel="noreferrer" target="_blank"><div class="font-black text-white">Workflow · Dynamics CRM MCP Server</div><p class="mt-1 text-slate-400">AI‑Tooling für fünf Account‑Operationen.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://github.com/KTC-GmbH/n8n-nodes-msdyn365bc" rel="noreferrer" target="_blank"><div class="font-black text-white">GitHub · KTC Business Central Node</div><p class="mt-1 text-slate-400">Community‑Node, aktuell Read‑Support.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://github.com/wtyeung/n8n-nodes-ms-dataverse" rel="noreferrer" target="_blank"><div class="font-black text-white">GitHub · Microsoft Dataverse Node</div><p class="mt-1 text-slate-400">Community‑Node mit Record‑Operationen.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://www.cdata.com/kb/tech/dynamics365-cloud-n8n.rst" rel="noreferrer" target="_blank"><div class="font-black text-white">CData · Dynamics 365 + n8n</div><p class="mt-1 text-slate-400">Remote‑MCP‑Ansatz für Workflows und Agenten.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://greatminds.consulting/partners/microsoft/dynamics-365/" rel="noreferrer" target="_blank"><div class="font-black text-white">Great Minds · Dynamics 365</div><p class="mt-1 text-slate-400">Dynamics‑Integration via APIs und Tools wie Power Automate und n8n.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://greatminds.consulting/partners/n8n/" rel="noreferrer" target="_blank"><div class="font-black text-white">Great Minds · n8n</div><p class="mt-1 text-slate-400">n8n‑Workflow‑Design/Deployment; Affiliation‑Hinweis.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://techwize.com/n8n-implementation-and-consulting" rel="noreferrer" target="_blank"><div class="font-black text-white">TechWize · n8n + Dynamics Services</div><p class="mt-1 text-slate-400">n8n‑Services und Dynamics‑365‑Consulting‑Positionierung.</p></a>
+<a class="glass2 rounded-2xl p-4" href="https://veloxisolutions.com/" rel="noreferrer" target="_blank"><div class="font-black text-white">Veloxi Solutions</div><p class="mt-1 text-slate-400">Dynamics 365, n8n Orchestration und AI Agents.</p></a>
+</div>
+</section>
+</main>
+</body>
+</html>
