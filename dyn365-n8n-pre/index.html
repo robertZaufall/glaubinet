@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Pre-Mortem Bericht · Dynamics 365 + n8n Projekt · Mai 2026</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['Inter','ui-sans-serif','system-ui','Segoe UI','Roboto','Arial','sans-serif'] },
+        boxShadow: {
+          glow: '0 0 0 1px rgba(148,163,184,.13), 0 28px 90px rgba(2,6,23,.72)',
+          cyan: '0 0 44px rgba(34,211,238,.16)',
+          emerald: '0 0 44px rgba(16,185,129,.15)',
+          violet: '0 0 44px rgba(139,92,246,.17)',
+          amber: '0 0 44px rgba(245,158,11,.13)',
+          rose: '0 0 44px rgba(244,63,94,.16)'
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    background:
+      radial-gradient(circle at 10% -5%, rgba(34,211,238,.17), transparent 34rem),
+      radial-gradient(circle at 92% 4%, rgba(139,92,246,.18), transparent 34rem),
+      radial-gradient(circle at 45% 105%, rgba(16,185,129,.11), transparent 44rem),
+      linear-gradient(180deg, #020617 0%, #050816 54%, #030712 100%);
+  }
+  .page { width: min(1540px, calc(100% - 32px)); }
+  .glass { background: linear-gradient(180deg, rgba(15,23,42,.90), rgba(15,23,42,.66)); border: 1px solid rgba(148,163,184,.16); }
+  .glass2 { background: linear-gradient(180deg, rgba(30,41,59,.78), rgba(15,23,42,.72)); border: 1px solid rgba(148,163,184,.14); }
+  .panel { background: rgba(2,6,23,.56); border: 1px solid rgba(148,163,184,.16); }
+  .grid-bg { background-image: linear-gradient(rgba(148,163,184,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.05) 1px, transparent 1px); background-size: 34px 34px; }
+  .bar { height: .68rem; border-radius: 999px; overflow: hidden; background: rgba(51,65,85,.82); }
+  .bar > span { display:block; height:100%; border-radius:999px; }
+  .mono { font-variant-numeric: tabular-nums; }
+  .source a { color: #67e8f9; text-decoration: none; }
+  .source a:hover { text-decoration: underline; }
+  .riskcell { min-height: 5.2rem; }
+  @media print { body { background:#020617 !important; } .page { width:100%; } section { break-inside: avoid; } a { color:inherit; text-decoration:none; } }
+</style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased">
+<main class="page mx-auto py-8 md:py-12 space-y-8">
+
+<section class="relative overflow-hidden rounded-[2.25rem] border border-rose-300/20 bg-slate-950/90 shadow-glow grid-bg">
+  <div class="absolute -right-28 -top-28 h-96 w-96 rounded-full bg-rose-400/15 blur-3xl"></div>
+  <div class="absolute -left-24 top-28 h-80 w-80 rounded-full bg-violet-500/15 blur-3xl"></div>
+  <div class="absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-emerald-400/10 blur-3xl"></div>
+  <div class="relative p-8 md:p-10 lg:p-12">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+      <div class="max-w-5xl">
+        <div class="inline-flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[.18em] text-cyan-100">
+          <span class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-2">Pre-Mortem</span>
+          <span class="rounded-full border border-violet-300/20 bg-violet-300/10 px-3 py-2">Dynamics 365</span>
+          <span class="rounded-full border border-emerald-300/20 bg-emerald-300/10 px-3 py-2">Business Central / Dataverse</span>
+          <span class="rounded-full border border-slate-300/20 bg-slate-300/10 px-3 py-2">n8n Workflows</span>
+        </div>
+        <h1 class="mt-6 text-4xl font-black tracking-tight md:text-6xl lg:text-7xl">
+          Pre‑Mortem <span class="bg-gradient-to-r from-rose-300 via-amber-300 to-cyan-300 bg-clip-text text-transparent">Dynamics 365 + n8n</span>
+        </h1>
+        <p class="mt-5 max-w-4xl text-xl leading-8 text-slate-300">Bericht zur Frage: Angenommen, das Integrationsprojekt ist in 6–12 Monaten gescheitert — welche Ursachen waren bereits heute sichtbar?</p>
+        <p class="mt-4 max-w-4xl text-sm leading-6 text-slate-400">Basis sind die im beigefügten Landscape‑HTML dokumentierten Integrationswege, Nodes, Templates, Community‑Artefakte, Anbieterpositionierungen, Reifegrade und die fehlende öffentliche Endkundenreferenzlage für die Kombination Dynamics 365 + n8n.</p>
+      </div>
+      <div class="grid min-w-[300px] gap-4 sm:grid-cols-3 lg:grid-cols-1">
+        <div class="glass rounded-3xl p-5 shadow-rose">
+          <div class="text-xs uppercase tracking-[.22em] text-rose-200/80">Pre‑Mortem Urteil</div>
+          <div class="mt-2 text-4xl font-black mono">Amber</div>
+          <p class="mt-3 text-sm text-slate-400">Machbar, aber nur mit API‑first Architektur, Governance, Security‑Design und sauberer Betriebsverantwortung.</p>
+        </div>
+        <div class="glass rounded-3xl p-5 shadow-amber">
+          <div class="text-xs uppercase tracking-[.22em] text-amber-200/80">Hauptgefährdung</div>
+          <div class="mt-2 text-3xl font-black">Scope Drift</div>
+          <p class="mt-3 text-sm text-slate-400">Der offizielle CRM‑Node ist eng; volle D365/Dataverse/BC‑Abdeckung entsteht nur über API‑Orchestrierung.</p>
+        </div>
+        <div class="glass rounded-3xl p-5 shadow-cyan">
+          <div class="text-xs uppercase tracking-[.22em] text-cyan-200/80">Empfohlener Modus</div>
+          <div class="mt-2 text-3xl font-black">Pilot → Gate</div>
+          <p class="mt-3 text-sm text-slate-400">Vor produktivem Rollout: technische Spike‑Phase, Security‑Review, Betriebsmodell und Integrationsvertrag.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+  <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h2 class="text-3xl font-black tracking-tight">Executive Summary</h2>
+      <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Die wahrscheinlichste Scheitergeschichte ist kein technisches Komplettversagen, sondern ein schleichender Kontrollverlust über Scope, Datenmodell, API‑Fehlerbehandlung, Berechtigungen und Betrieb.</p>
+    </div>
+    <div class="rounded-2xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm font-bold text-amber-100">Management‑Risiko: mittel bis hoch</div>
+  </div>
+  <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-rose-200">Failure Mode 01</div><h3 class="mt-3 text-xl font-black text-white">Node‑Scope überschätzt</h3><p class="mt-2 text-sm leading-6 text-slate-400">Der offizielle Microsoft Dynamics CRM Node deckt Account‑Operationen ab. Wird daraus eine komplette D365‑Integrationsplattform abgeleitet, entstehen Lücken.</p></div>
+    <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-amber-200">Failure Mode 02</div><h3 class="mt-3 text-xl font-black text-white">API‑first ohne API‑Disziplin</h3><p class="mt-2 text-sm leading-6 text-slate-400">Business Central via HTTP ist der robusteste Pfad, scheitert aber ohne Pagination, Retry, Idempotenz, Versionierung und fachliche Konfliktregeln.</p></div>
+    <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-violet-200">Failure Mode 03</div><h3 class="mt-3 text-xl font-black text-white">Community‑Nodes produktivisiert</h3><p class="mt-2 text-sm leading-6 text-slate-400">Dataverse‑ und BC‑Community‑Nodes beschleunigen Prototypen, sind aber ohne Code‑Review, Pinning und Wartungsmodell ein Lieferketten‑ und Betriebsrisiko.</p></div>
+    <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-cyan-200">Failure Mode 04</div><h3 class="mt-3 text-xl font-black text-white">Referenzlage überverkauft</h3><p class="mt-2 text-sm leading-6 text-slate-400">Da keine öffentliche namentliche Endkundenreferenz für D365+n8n dokumentiert ist, kann ein Stakeholder‑Vertrauensproblem entstehen.</p></div>
+  </div>
+</section>
+
+<section class="grid gap-6 xl:grid-cols-[1.1fr_.9fr]">
+  <div class="glass rounded-[2rem] p-6 shadow-glow">
+    <h2 class="text-3xl font-black tracking-tight">Scheiter-Narrativ</h2>
+    <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Retrospektive Annahme: Es ist Mai 2027. Das Projekt gilt als gescheitert oder muss grundlegend neu aufgesetzt werden.</p>
+    <div class="mt-6 space-y-4">
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-rose-200">Monat 1–2</div><h3 class="mt-3 text-xl font-black text-white">Schneller PoC erzeugt falsche Sicherheit</h3><p class="mt-2 text-sm leading-6 text-slate-400">Account‑Automationen und einfache BC‑Requests funktionieren. Daraus wird geschlossen, dass auch komplexe Sales‑, Service‑, Finance‑ und Dataverse‑Szenarien ähnlich schnell produktionsreif sind.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-amber-200">Monat 3–5</div><h3 class="mt-3 text-xl font-black text-white">Integrationslogik wandert unkontrolliert in Workflows</h3><p class="mt-2 text-sm leading-6 text-slate-400">Mapping, Validierung, Fehlerbehandlung und fachliche Entscheidungen werden in n8n‑Workflows verteilt. Die Dokumentation hinkt nach; Änderungen in Dynamics‑Entitäten brechen Folgeprozesse.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-violet-200">Monat 6–8</div><h3 class="mt-3 text-xl font-black text-white">Betrieb übernimmt ein unfertiges System</h3><p class="mt-2 text-sm leading-6 text-slate-400">Monitoring, Alerting, Credential‑Rotation, Ownership, Wiederanlauf und Auditability sind nicht ausreichend geklärt. Einzelne Workflow‑Fehler erzeugen Dateninkonsistenzen in CRM, Dataverse oder Business Central.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-cyan-200">Monat 9–12</div><h3 class="mt-3 text-xl font-black text-white">Rebuild statt Skalierung</h3><p class="mt-2 text-sm leading-6 text-slate-400">Das Team muss kritische Integrationen neu designen: API‑Contracts, zentrale Fehlerqueues, Secrets‑Management, Rollenmodell und Deployment‑Pipelines werden nachträglich eingeführt.</p></div>
+    </div>
+  </div>
+  <div class="glass rounded-[2rem] p-6 shadow-glow">
+    <h2 class="text-3xl font-black tracking-tight">Kernannahmen aus der Landscape</h2>
+    <div class="mt-6 space-y-5">
+      <div><div class="flex justify-between text-sm"><span class="font-bold text-white">Business Central API via HTTP</span><span class="mono text-slate-400">R4</span></div><div class="mt-2 bar"><span class="w-[82%] bg-gradient-to-r from-emerald-400 to-cyan-400"></span></div><p class="mt-2 text-xs text-slate-500">Stärkster produktiver Pfad, aber API‑Engineering erforderlich.</p></div>
+      <div><div class="flex justify-between text-sm"><span class="font-bold text-white">Offizieller CRM‑Node</span><span class="mono text-slate-400">R3</span></div><div class="mt-2 bar"><span class="w-[70%] bg-gradient-to-r from-cyan-400 to-emerald-400"></span></div><p class="mt-2 text-xs text-slate-500">Geeignet für Account‑Use‑Cases, nicht als vollständige D365‑Abdeckung interpretieren.</p></div>
+      <div><div class="flex justify-between text-sm"><span class="font-bold text-white">Dataverse Community Node</span><span class="mono text-slate-400">R2–R3</span></div><div class="mt-2 bar"><span class="w-[60%] bg-gradient-to-r from-violet-400 to-cyan-400"></span></div><p class="mt-2 text-xs text-slate-500">Pilotfähig; produktiv nur nach Review und Betriebsfreigabe.</p></div>
+      <div><div class="flex justify-between text-sm"><span class="font-bold text-white">KTC BC Community Node</span><span class="mono text-slate-400">R1–R2</span></div><div class="mt-2 bar"><span class="w-[38%] bg-gradient-to-r from-amber-400 to-rose-400"></span></div><p class="mt-2 text-xs text-slate-500">Früher Reifegrad; Read‑Pilot statt Write‑Kernprozess.</p></div>
+      <div><div class="flex justify-between text-sm"><span class="font-bold text-white">Öffentliche Endkundenreferenzen</span><span class="mono text-slate-400">0</span></div><div class="mt-2 bar"><span class="w-[0%] bg-gradient-to-r from-rose-400 to-amber-400"></span></div><p class="mt-2 text-xs text-slate-500">Keine namentliche öffentliche Referenz für Kunde + Dynamics 365 + n8n gemeinsam.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+  <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h2 class="text-3xl font-black tracking-tight">Risk Register</h2>
+      <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Priorisierte Pre‑Mortem‑Risiken mit Scheitermechanismus, Frühindikatoren und Gegenmaßnahmen.</p>
+    </div>
+    <div class="rounded-2xl border border-rose-300/20 bg-rose-300/10 px-4 py-3 text-sm font-bold text-rose-100">Top 10 Failure Modes</div>
+  </div>
+  <div class="mt-6 overflow-hidden rounded-3xl border border-slate-700/80">
+    <table class="w-full min-w-[1240px] text-left text-sm">
+      <thead class="bg-slate-900/95 text-xs uppercase tracking-[.18em] text-slate-400">
+        <tr><th class="p-4">#</th><th class="p-4">Risiko</th><th class="p-4">Scheitermechanismus</th><th class="p-4">Frühindikator</th><th class="p-4">Gegenmaßnahme</th><th class="p-4">Schwere</th></tr>
+      </thead>
+      <tbody class="divide-y divide-slate-800 bg-slate-950/40 align-top">
+        <tr><td class="p-4 font-bold text-rose-200">01</td><td class="p-4 font-bold text-white">Falsche Produktannahme</td><td class="p-4 text-slate-300">CRM‑Node wird als umfassende D365‑Integration verstanden.</td><td class="p-4 text-amber-200">Backlog enthält Sales/Service/Finance‑Operationen ohne API‑Design.</td><td class="p-4 text-slate-400">Capability‑Matrix je Entität, Operation, API, Owner und Testfall vor Freigabe.</td><td class="p-4"><div class="bar w-28"><span class="w-[92%] bg-rose-400"></span></div><div class="mt-1 text-xs text-slate-500">kritisch</div></td></tr>
+        <tr><td class="p-4 font-bold text-rose-200">02</td><td class="p-4 font-bold text-white">Datenmodell‑Drift</td><td class="p-4 text-slate-300">Dataverse‑Felder, BC‑Stammdaten und CRM‑Accounts entwickeln sich auseinander.</td><td class="p-4 text-amber-200">Viele Mapping‑Sonderfälle in Workflows; keine Datenverantwortlichen.</td><td class="p-4 text-slate-400">Canonical Data Model, Mapping‑Versionen, Data Stewardship und Regressionstests.</td><td class="p-4"><div class="bar w-28"><span class="w-[90%] bg-rose-400"></span></div><div class="mt-1 text-xs text-slate-500">kritisch</div></td></tr>
+        <tr><td class="p-4 font-bold text-amber-200">03</td><td class="p-4 font-bold text-white">Nicht-idempotente Workflows</td><td class="p-4 text-slate-300">Retries, Timeouts oder manuelle Wiederläufe erzeugen Dubletten oder falsche Buchungen.</td><td class="p-4 text-amber-200">Keine Correlation IDs, keine Dedup‑Keys, keine Replay‑Regeln.</td><td class="p-4 text-slate-400">Idempotency Keys, Outbox/Inbox‑Pattern, Dead‑Letter‑Queue, fachliche Reconciliation.</td><td class="p-4"><div class="bar w-28"><span class="w-[88%] bg-rose-400"></span></div><div class="mt-1 text-xs text-slate-500">hoch</div></td></tr>
+        <tr><td class="p-4 font-bold text-amber-200">04</td><td class="p-4 font-bold text-white">Security‑ und Consent‑Lücken</td><td class="p-4 text-slate-300">OAuth‑Scopes, Service Accounts oder Secrets werden zu breit vergeben.</td><td class="p-4 text-amber-200">Gemeinsame Credentials, unklare Rotationszyklen, fehlende Least‑Privilege‑Matrix.</td><td class="p-4 text-slate-400">Entra‑App‑Registrierungen, Secret‑Rotation, getrennte Umgebungen, Audit‑Logging.</td><td class="p-4"><div class="bar w-28"><span class="w-[86%] bg-rose-400"></span></div><div class="mt-1 text-xs text-slate-500">hoch</div></td></tr>
+        <tr><td class="p-4 font-bold text-amber-200">05</td><td class="p-4 font-bold text-white">Community‑Node Supply Chain</td><td class="p-4 text-slate-300">Ungeprüfte Community‑Nodes werden zum produktiven Kernbestandteil.</td><td class="p-4 text-amber-200">Kein Code‑Review, keine Version‑Pins, keine Wartungsvereinbarung.</td><td class="p-4 text-slate-400">Nur Pilot‑Nutzung; SBOM, Review, Fork‑Strategie, Update‑Prozess, Fallback auf HTTP/API.</td><td class="p-4"><div class="bar w-28"><span class="w-[80%] bg-amber-400"></span></div><div class="mt-1 text-xs text-slate-500">hoch</div></td></tr>
+        <tr><td class="p-4 font-bold text-cyan-200">06</td><td class="p-4 font-bold text-white">Betriebsmodell fehlt</td><td class="p-4 text-slate-300">Nach Go‑Live ist unklar, wer Incidents, Changes und Datenkorrekturen verantwortet.</td><td class="p-4 text-amber-200">Keine RACI, kein Runbook, keine SLOs, keine On‑Call‑Regel.</td><td class="p-4 text-slate-400">Produkt‑Owner, Tech‑Owner, Support‑Modell, Runbooks, SLOs und Eskalationspfade definieren.</td><td class="p-4"><div class="bar w-28"><span class="w-[78%] bg-amber-400"></span></div><div class="mt-1 text-xs text-slate-500">hoch</div></td></tr>
+        <tr><td class="p-4 font-bold text-cyan-200">07</td><td class="p-4 font-bold text-white">Template‑Overfitting</td><td class="p-4 text-slate-300">Shopify→BC oder MCP‑Templates werden als Blaupause für komplexe Domänenprozesse verwendet.</td><td class="p-4 text-amber-200">Template wird kopiert, aber nicht fachlich neu modelliert.</td><td class="p-4 text-slate-400">Templates nur als Accelerator; Zielarchitektur und Prozessvarianten separat modellieren.</td><td class="p-4"><div class="bar w-28"><span class="w-[68%] bg-amber-400"></span></div><div class="mt-1 text-xs text-slate-500">mittel</div></td></tr>
+        <tr><td class="p-4 font-bold text-violet-200">08</td><td class="p-4 font-bold text-white">Agenten/MCP ohne Governance</td><td class="p-4 text-slate-300">AI‑Agenten greifen auf Dynamics‑Daten zu oder handeln in Workflows ohne klare Guardrails.</td><td class="p-4 text-amber-200">Prompt‑Tools ohne Freigabe, fehlende Read/Write‑Trennung, unklare Audit‑Trail‑Regeln.</td><td class="p-4 text-slate-400">Tool‑Allowlist, Human‑in‑the‑Loop für Writes, Audit‑Trail, Datensensitivitätsklassen.</td><td class="p-4"><div class="bar w-28"><span class="w-[75%] bg-violet-400"></span></div><div class="mt-1 text-xs text-slate-500">hoch</div></td></tr>
+        <tr><td class="p-4 font-bold text-violet-200">09</td><td class="p-4 font-bold text-white">Vendor‑Lock‑in unterschätzt</td><td class="p-4 text-slate-300">CData/Vendor‑Pfade lösen kurzfristig Zugriff, schaffen aber Kosten‑, Betriebs‑ und Abhängigkeitsfragen.</td><td class="p-4 text-amber-200">Kernprozess hängt an proprietärer Middleware ohne Exit‑Plan.</td><td class="p-4 text-slate-400">Buy‑vs‑Build‑Entscheidung dokumentieren, Exit‑Plan, Kostenmodell, SLA und Security‑Review.</td><td class="p-4"><div class="bar w-28"><span class="w-[62%] bg-violet-400"></span></div><div class="mt-1 text-xs text-slate-500">mittel</div></td></tr>
+        <tr><td class="p-4 font-bold text-slate-200">10</td><td class="p-4 font-bold text-white">Referenz- und Erwartungsrisiko</td><td class="p-4 text-slate-300">Stakeholder erwarten marktvalidierte Standardintegration, obwohl öffentliche Endkundenreferenzen fehlen.</td><td class="p-4 text-amber-200">Pitch nutzt implizite Reifeaussagen ohne Kundenfreigaben.</td><td class="p-4 text-slate-400">Realistische Positionierung: API‑Orchestrierung mit PoC‑Evidenz statt Referenzbehauptung.</td><td class="p-4"><div class="bar w-28"><span class="w-[58%] bg-cyan-400"></span></div><div class="mt-1 text-xs text-slate-500">mittel</div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+  <h2 class="text-3xl font-black tracking-tight">Risiko-Heatmap</h2>
+  <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Verdichtete Sicht auf Eintrittswahrscheinlichkeit und Auswirkung. Die Zuordnung ist eine Pre‑Mortem‑Einschätzung, keine Messung.</p>
+  <div class="mt-6 grid gap-3 lg:grid-cols-5">
+    <div class="glass2 rounded-3xl p-4 riskcell"><div class="text-xs uppercase tracking-[.18em] text-slate-500">niedrig / niedrig</div><p class="mt-2 text-sm text-slate-400">Reine Demo‑Flows ohne produktive Daten.</p></div>
+    <div class="glass2 rounded-3xl p-4 riskcell"><div class="text-xs uppercase tracking-[.18em] text-cyan-300">mittel / niedrig</div><p class="mt-2 text-sm text-slate-400">Template‑Anpassungen für isolierte Use‑Cases.</p></div>
+    <div class="glass2 rounded-3xl p-4 riskcell"><div class="text-xs uppercase tracking-[.18em] text-amber-300">hoch / mittel</div><p class="mt-2 text-sm text-slate-400">API‑Flows ohne vollständige Fehler‑ und Retry‑Semantik.</p></div>
+    <div class="glass2 rounded-3xl p-4 riskcell"><div class="text-xs uppercase tracking-[.18em] text-rose-300">hoch / hoch</div><p class="mt-2 text-sm text-slate-400">Writes in BC/Dataverse ohne Idempotenz, Audit und Reconciliation.</p></div>
+    <div class="glass2 rounded-3xl p-4 riskcell"><div class="text-xs uppercase tracking-[.18em] text-rose-200">kritisch</div><p class="mt-2 text-sm text-slate-400">Produktive Kernprozesse auf ungoverned Community‑Nodes oder Agenten‑Writes.</p></div>
+  </div>
+  <div class="mt-6 grid gap-4 md:grid-cols-3">
+    <div class="rounded-3xl border border-rose-300/20 bg-rose-300/10 p-5"><div class="text-sm font-bold text-rose-100">No‑Go ohne Gate</div><p class="mt-2 text-sm leading-6 text-rose-100/90">Finanzrelevante Business‑Central‑Writes, Massendaten‑Synchronisation, agentenbasierte Write‑Operationen.</p></div>
+    <div class="rounded-3xl border border-amber-300/20 bg-amber-300/10 p-5"><div class="text-sm font-bold text-amber-100">Pilotfähig</div><p class="mt-2 text-sm leading-6 text-amber-100/90">Dataverse Community Node, MCP‑Tooling, Shopify/Commerce‑Templates, erste API‑Integrationen.</p></div>
+    <div class="rounded-3xl border border-emerald-300/20 bg-emerald-300/10 p-5"><div class="text-sm font-bold text-emerald-100">Go‑fähig</div><p class="mt-2 text-sm leading-6 text-emerald-100/90">Account‑nahe CRM‑Operationen mit offiziellem Node; BC‑API‑first mit Engineering‑Standards.</p></div>
+  </div>
+</section>
+
+<section class="grid gap-6 xl:grid-cols-[.9fr_1.1fr]">
+  <div class="glass rounded-[2rem] p-6 shadow-glow">
+    <h2 class="text-3xl font-black tracking-tight">Frühwarnsystem</h2>
+    <p class="mt-2 text-sm leading-6 text-slate-400">Diese Signale deuten darauf hin, dass das Projekt in Richtung Scheiterpfad kippt.</p>
+    <div class="mt-6 space-y-4">
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-rose-200">Architektur</div><p class="mt-2 text-sm text-slate-400">Mehr als 30% der Workflow‑Nodes enthalten fachliche Transformationslogik ohne zentralen Mapping‑Katalog.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-amber-200">Betrieb</div><p class="mt-2 text-sm text-slate-400">Fehlgeschlagene Executions werden manuell neu gestartet, ohne Dubletten‑ oder Seiteneffektprüfung.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-violet-200">Security</div><p class="mt-2 text-sm text-slate-400">Ein Service Principal oder Credential wird für Dev, Test und Prod oder für zu viele Entitäten genutzt.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-cyan-200">Stakeholder</div><p class="mt-2 text-sm text-slate-400">Fachbereiche erwarten Standardprodukt‑Verhalten, während die technische Realität API‑Orchestrierung und Custom‑Logik ist.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="text-xs uppercase tracking-[.22em] text-emerald-200">Qualität</div><p class="mt-2 text-sm text-slate-400">Testdaten decken nur Happy Paths ab; keine Last‑, Fehler‑, Rollback‑ oder Reconciliation‑Szenarien.</p></div>
+    </div>
+  </div>
+  <div class="glass rounded-[2rem] p-6 shadow-glow">
+    <h2 class="text-3xl font-black tracking-tight">Preventive Controls</h2>
+    <p class="mt-2 text-sm leading-6 text-slate-400">Minimaler Kontrollsatz, um das Projekt kontrolliert produktionsfähig zu machen.</p>
+    <div class="mt-6 overflow-hidden rounded-3xl border border-slate-700/80">
+      <table class="w-full min-w-[860px] text-left text-sm">
+        <thead class="bg-slate-900/95 text-xs uppercase tracking-[.18em] text-slate-400"><tr><th class="p-4">Kontrolle</th><th class="p-4">Definition of Done</th><th class="p-4">Owner</th></tr></thead>
+        <tbody class="divide-y divide-slate-800 bg-slate-950/40 align-top">
+          <tr><td class="p-4 font-bold text-white">Integration Contract</td><td class="p-4 text-slate-300">Je Flow: Quelle, Ziel, Entität, Operation, Idempotenz‑Key, Fehlerklasse, Retry‑Regel, Datenschutzklasse.</td><td class="p-4 text-cyan-200">Solution Architect</td></tr>
+          <tr><td class="p-4 font-bold text-white">API Engineering Standard</td><td class="p-4 text-slate-300">Pagination, Rate Limits, Retry mit Backoff, Timeout, Correlation ID, Schema‑Validation, Versionierung.</td><td class="p-4 text-cyan-200">Integration Lead</td></tr>
+          <tr><td class="p-4 font-bold text-white">Security Baseline</td><td class="p-4 text-slate-300">Least Privilege, getrennte App‑Registrierungen, Secret‑Rotation, Audit‑Logging, Environment‑Trennung.</td><td class="p-4 text-violet-200">Security Owner</td></tr>
+          <tr><td class="p-4 font-bold text-white">Community‑Node Governance</td><td class="p-4 text-slate-300">SBOM, Code‑Review, Version‑Pinning, Wartungsentscheid, Fallback‑Plan auf HTTP/API.</td><td class="p-4 text-amber-200">Platform Owner</td></tr>
+          <tr><td class="p-4 font-bold text-white">Operational Readiness</td><td class="p-4 text-slate-300">Runbook, SLO, Alerting, Dashboards, Dead‑Letter‑Bearbeitung, RACI und Incident‑Prozess.</td><td class="p-4 text-emerald-200">Operations Lead</td></tr>
+          <tr><td class="p-4 font-bold text-white">Data Reconciliation</td><td class="p-4 text-slate-300">Tägliche Prüfungen auf Dubletten, Fehlbuchungen, verwaiste Datensätze und Mapping‑Fehler.</td><td class="p-4 text-emerald-200">Data Steward</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="glass rounded-[2rem] p-6 shadow-glow">
+  <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+    <div>
+      <h2 class="text-3xl font-black tracking-tight">Gate‑Plan</h2>
+      <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Entscheidungspunkte, bevor aus einem PoC ein produktiver Integrationsbetrieb wird.</p>
+    </div>
+    <div class="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-bold text-emerald-100">Empfohlen: 4 Gates</div>
+  </div>
+  <div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-cyan-400/10 px-4 py-2 text-sm font-bold text-cyan-200">Gate 0 · Discovery</div><h3 class="mt-4 text-xl font-black text-white">Scope realistisch schneiden</h3><p class="mt-2 text-sm leading-6 text-slate-400">Use‑Cases nach CRM‑Node, BC‑API, Dataverse‑API, Template, Community‑Node und Vendor‑Pfad klassifizieren.</p><p class="mt-3 text-xs text-slate-500">Exit: Capability‑Matrix freigegeben.</p></div>
+    <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-violet-400/10 px-4 py-2 text-sm font-bold text-violet-200">Gate 1 · Spike</div><h3 class="mt-4 text-xl font-black text-white">Kritische Pfade beweisen</h3><p class="mt-2 text-sm leading-6 text-slate-400">Schreibende BC/Dataverse‑Operationen mit Fehlerfällen, Retries, Reconciliation und Security testen.</p><p class="mt-3 text-xs text-slate-500">Exit: technische Risiken quantifiziert.</p></div>
+    <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-amber-400/10 px-4 py-2 text-sm font-bold text-amber-200">Gate 2 · Hardening</div><h3 class="mt-4 text-xl font-black text-white">Betriebsreife herstellen</h3><p class="mt-2 text-sm leading-6 text-slate-400">Runbooks, Alerts, Secrets, Deployment‑Prozess, Audit‑Trail und Datenkorrekturverfahren vollständig definieren.</p><p class="mt-3 text-xs text-slate-500">Exit: Operational Readiness Review bestanden.</p></div>
+    <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-emerald-400/10 px-4 py-2 text-sm font-bold text-emerald-200">Gate 3 · Go‑Live</div><h3 class="mt-4 text-xl font-black text-white">Kontrollierter Rollout</h3><p class="mt-2 text-sm leading-6 text-slate-400">Stufenweiser Rollout mit Monitoring, Feature Flags, Rollback‑Pfad und täglichem Hypercare‑Review.</p><p class="mt-3 text-xs text-slate-500">Exit: SLO stabil, keine offenen P1/P2‑Risiken.</p></div>
+  </div>
+</section>
+
+<section class="grid gap-6 xl:grid-cols-[1fr_1fr]">
+  <div class="glass rounded-[2rem] p-6 shadow-glow">
+    <h2 class="text-3xl font-black tracking-tight">Konkrete Projektentscheidungen</h2>
+    <div class="mt-6 grid gap-4">
+      <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-emerald-400/10 px-4 py-2 text-sm font-bold text-emerald-200">Go</div><h3 class="mt-4 text-xl font-black text-white">Business Central über HTTP/API als Standardpfad</h3><p class="mt-2 text-sm leading-6 text-slate-400">Nicht auf unreife oder read‑limitierte Community‑Nodes für produktive Write‑Prozesse setzen.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-cyan-400/10 px-4 py-2 text-sm font-bold text-cyan-200">Go</div><h3 class="mt-4 text-xl font-black text-white">Offizieller CRM‑Node nur für passende Account‑Use‑Cases</h3><p class="mt-2 text-sm leading-6 text-slate-400">Für nicht unterstützte Operationen frühzeitig API‑Design statt Node‑Workarounds.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-violet-400/10 px-4 py-2 text-sm font-bold text-violet-200">Pilot</div><h3 class="mt-4 text-xl font-black text-white">Dataverse Community Node mit Produktionsbremse</h3><p class="mt-2 text-sm leading-6 text-slate-400">PoC erlaubt; Produktivsetzung nur nach Security‑, Code‑ und Betriebsreview.</p></div>
+      <div class="glass2 rounded-3xl p-5"><div class="rounded-2xl bg-rose-400/10 px-4 py-2 text-sm font-bold text-rose-200">No‑Go</div><h3 class="mt-4 text-xl font-black text-white">Agenten‑Writes ohne Human‑in‑the‑Loop</h3><p class="mt-2 text-sm leading-6 text-slate-400">AI/MCP‑Pfad nur lesend oder mit expliziten Freigabe‑ und Auditmechanismen.</p></div>
+    </div>
+  </div>
+  <div class="glass rounded-[2rem] p-6 shadow-glow">
+    <h2 class="text-3xl font-black tracking-tight">30‑Tage Sofortmaßnahmen</h2>
+    <div class="mt-6 overflow-hidden rounded-3xl border border-slate-700/80">
+      <table class="w-full min-w-[780px] text-left text-sm">
+        <thead class="bg-slate-900/95 text-xs uppercase tracking-[.18em] text-slate-400"><tr><th class="p-4">Woche</th><th class="p-4">Maßnahme</th><th class="p-4">Ergebnis</th></tr></thead>
+        <tbody class="divide-y divide-slate-800 bg-slate-950/40 align-top">
+          <tr><td class="p-4 font-bold text-white">1</td><td class="p-4 text-slate-300">Use‑Case‑Inventar und Capability‑Matrix erstellen.</td><td class="p-4 text-slate-400">Klare Trennung: offizieller Node, HTTP/API, Community, Vendor, Template.</td></tr>
+          <tr><td class="p-4 font-bold text-white">1–2</td><td class="p-4 text-slate-300">Top‑5 kritische Write‑Operationen als API‑Spike testen.</td><td class="p-4 text-slate-400">Beweise für Fehlerverhalten, Idempotenz und Datenkonsistenz.</td></tr>
+          <tr><td class="p-4 font-bold text-white">2</td><td class="p-4 text-slate-300">Security‑Baseline mit Entra‑App‑Registrierungen und Least Privilege definieren.</td><td class="p-4 text-slate-400">Keine produktiven Shared Credentials; klare Scope‑Matrix.</td></tr>
+          <tr><td class="p-4 font-bold text-white">3</td><td class="p-4 text-slate-300">Betriebsmodell, RACI und Runbook‑Skeleton aufsetzen.</td><td class="p-4 text-slate-400">Ownership für Incidents, Datenkorrekturen und Changes ist sichtbar.</td></tr>
+          <tr><td class="p-4 font-bold text-white">4</td><td class="p-4 text-slate-300">Go/No‑Go‑Board für Community‑Nodes und Vendor‑Pfad durchführen.</td><td class="p-4 text-slate-400">Entscheidung dokumentiert: nutzen, kapseln, ersetzen oder vermeiden.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="source glass rounded-[2rem] p-6 shadow-glow">
+  <h2 class="text-3xl font-black tracking-tight">Datenbasis aus beigefügtem Landscape‑HTML</h2>
+  <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-400">Der Bericht übernimmt die dort dokumentierten Kerndaten und interpretiert sie als Pre‑Mortem‑Risiken.</p>
+  <div class="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-3 text-sm">
+    <div class="glass2 rounded-2xl p-4"><div class="font-black text-white">n8n Microsoft Dynamics CRM Node</div><p class="mt-1 text-slate-400">Offizieller Node mit Account Create, Delete, Get, Get All und Update; HTTP‑Request‑Fallback für nicht unterstützte Operationen.</p></div>
+    <div class="glass2 rounded-2xl p-4"><div class="font-black text-white">Business Central API mit n8n</div><p class="mt-1 text-slate-400">API‑first über HTTP Request Node; robuste Option für Customer‑Operationen und BC‑Integration.</p></div>
+    <div class="glass2 rounded-2xl p-4"><div class="font-black text-white">Shopify → D365 Business Central</div><p class="mt-1 text-slate-400">Template als Accelerator für Commerce‑zu‑BC‑Prozesse, nicht als vollständige Zielarchitektur.</p></div>
+    <div class="glass2 rounded-2xl p-4"><div class="font-black text-white">Dynamics CRM MCP Server</div><p class="mt-1 text-slate-400">Template für AI‑Tooling rund um die fünf Dynamics‑CRM‑Account‑Operationen.</p></div>
+    <div class="glass2 rounded-2xl p-4"><div class="font-black text-white">Community Nodes</div><p class="mt-1 text-slate-400">KTC Business Central Node mit frühem Reifegrad und Read‑Fokus; Dataverse Node mit breiterem Record‑Operations‑Scope.</p></div>
+    <div class="glass2 rounded-2xl p-4"><div class="font-black text-white">Referenzlage</div><p class="mt-1 text-slate-400">Keine namentliche öffentliche Endkundenfallstudie, die Kunde, Dynamics 365 und n8n gemeinsam nennt.</p></div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
