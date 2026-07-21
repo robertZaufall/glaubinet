@@ -16,6 +16,8 @@
     --accent-info-glow: rgba(59, 130, 246, 0.25);
     --accent-dev: #14b8a6;
     --accent-dev-glow: rgba(20, 184, 166, 0.24);
+    --accent-repo: #ec4899;
+    --accent-repo-glow: rgba(236, 72, 153, 0.24);
     --accent-ai: #a855f7;
     --accent-ai-glow: rgba(168, 85, 247, 0.25);
     --accent-article: #f59e0b;
@@ -144,6 +146,10 @@
     background: rgba(20,184,166,0.1);
     border: 1px solid rgba(20,184,166,0.2);
   }
+  .section-icon.repo {
+    background: rgba(236,72,153,0.1);
+    border: 1px solid rgba(236,72,153,0.2);
+  }
   .section-icon.article {
     background: rgba(245,158,11,0.1);
     border: 1px solid rgba(245,158,11,0.2);
@@ -160,6 +166,7 @@
 
   .section-title.info { color: var(--accent-info); }
   .section-title.dev { color: var(--accent-dev); }
+  .section-title.repo { color: var(--accent-repo); }
   .section-title.ai { color: var(--accent-ai); }
   .section-title.article { color: var(--accent-article); }
   .section-title.other { color: var(--accent-other); }
@@ -198,6 +205,9 @@
   .route-card.dev::before {
     background: linear-gradient(135deg, rgba(20,184,166,0.08), transparent 60%);
   }
+  .route-card.repo::before {
+    background: linear-gradient(135deg, rgba(236,72,153,0.08), transparent 60%);
+  }
   .route-card.ai::before {
     background: linear-gradient(135deg, rgba(168,85,247,0.06), transparent 60%);
   }
@@ -219,6 +229,10 @@
   .route-card.dev:hover {
     border-color: rgba(20,184,166,0.4);
     box-shadow: 0 4px 24px rgba(20,184,166,0.12), inset 0 0 0 1px rgba(20,184,166,0.06);
+  }
+  .route-card.repo:hover {
+    border-color: rgba(236,72,153,0.4);
+    box-shadow: 0 4px 24px rgba(236,72,153,0.12), inset 0 0 0 1px rgba(236,72,153,0.06);
   }
   .route-card.ai:hover {
     border-color: rgba(168,85,247,0.4);
@@ -258,6 +272,11 @@
     color: var(--accent-dev);
     border: 1px solid rgba(20,184,166,0.18);
   }
+  .path-tag.repo {
+    background: rgba(236,72,153,0.1);
+    color: var(--accent-repo);
+    border: 1px solid rgba(236,72,153,0.18);
+  }
   .path-tag.ai {
     background: rgba(168,85,247,0.1);
     color: var(--accent-ai);
@@ -282,6 +301,7 @@
   .route-card:hover .route-arrow { opacity: 1; }
   .route-card.info:hover .route-arrow { color: var(--accent-info); }
   .route-card.dev:hover .route-arrow { color: var(--accent-dev); }
+  .route-card.repo:hover .route-arrow { color: var(--accent-repo); }
   .route-card.ai:hover .route-arrow { color: var(--accent-ai); }
   .route-card.article:hover .route-arrow { color: var(--accent-article); }
   .route-card.other:hover .route-arrow { color: var(--accent-other); }
@@ -298,6 +318,7 @@
   }
   .route-card.info:hover .dest-name { color: var(--accent-info); }
   .route-card.dev:hover .dest-name { color: var(--accent-dev); }
+  .route-card.repo:hover .dest-name { color: var(--accent-repo); }
   .route-card.ai:hover .dest-name { color: var(--accent-ai); }
   .route-card.article:hover .dest-name { color: var(--accent-article); }
   .route-card.other:hover .dest-name { color: var(--accent-other); }
@@ -356,6 +377,10 @@
     background: rgba(20,184,166,0.2);
     border-color: rgba(20,184,166,0.4);
   }
+  a.path-tag.repo:hover {
+    background: rgba(236,72,153,0.2);
+    border-color: rgba(236,72,153,0.4);
+  }
   a.path-tag.ai:hover {
     background: rgba(168,85,247,0.2);
     border-color: rgba(168,85,247,0.4);
@@ -387,6 +412,9 @@
   }
   .route-card.dev .visit-links .visit-btn:hover {
     color: var(--accent-dev);
+  }
+  .route-card.repo .visit-links .visit-btn:hover {
+    color: var(--accent-repo);
   }
   .route-card.ai .visit-links .visit-btn:hover {
     color: var(--accent-ai);
@@ -480,7 +508,7 @@
       <div class="stat-label">Routes</div>
     </div>
     <div class="stat">
-      <div class="stat-num">5</div>
+      <div class="stat-num">6</div>
       <div class="stat-label">Categories</div>
     </div>
     <div class="stat">
@@ -526,70 +554,6 @@
           <div class="visit-links always-visible">
             <a href="https://glaubi.net/claw" target="_blank" class="visit-btn">Visit ↗</a>
             <a href="https://github.com/robertZaufall/claw-eco" target="_blank" class="visit-btn">GitHub ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="route-card info"
-         data-tip="Searchable atlas of active NVIDIA GitHub repositories">
-        <div class="route-paths">
-          <a href="https://glaubi.net/nvidia" target="_blank" class="path-tag info">/nvidia</a>
-        </div>
-        <div class="route-arrow">⟶</div>
-        <div class="route-dest">
-          <div class="dest-name">NVIDIA Repository Atlas</div>
-          <div class="dest-type">GitHub Pages Catalog</div>
-          <div class="visit-links always-visible">
-            <a href="https://glaubi.net/nvidia" target="_blank" class="visit-btn">Visit ↗</a>
-            <a href="https://github.com/robertZaufall/nvidia-repos" target="_blank" class="visit-btn">GitHub ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="route-card info"
-         data-tip="Searchable atlas of active Microsoft GitHub repositories">
-        <div class="route-paths">
-          <a href="https://glaubi.net/microsoft" target="_blank" class="path-tag info">/microsoft</a>
-        </div>
-        <div class="route-arrow">⟶</div>
-        <div class="route-dest">
-          <div class="dest-name">Microsoft Repository Atlas</div>
-          <div class="dest-type">GitHub Pages Catalog</div>
-          <div class="visit-links always-visible">
-            <a href="https://glaubi.net/microsoft" target="_blank" class="visit-btn">Visit ↗</a>
-            <a href="https://github.com/robertZaufall/microsoft-repos" target="_blank" class="visit-btn">GitHub ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="route-card info"
-         data-tip="Searchable atlas of active Anthropic GitHub repositories">
-        <div class="route-paths">
-          <a href="https://glaubi.net/anthropic" target="_blank" class="path-tag info">/anthropic</a>
-        </div>
-        <div class="route-arrow">⟶</div>
-        <div class="route-dest">
-          <div class="dest-name">Anthropic Repository Atlas</div>
-          <div class="dest-type">GitHub Pages Catalog</div>
-          <div class="visit-links always-visible">
-            <a href="https://glaubi.net/anthropic" target="_blank" class="visit-btn">Visit ↗</a>
-            <a href="https://github.com/robertZaufall/anthropic-repos" target="_blank" class="visit-btn">GitHub ↗</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="route-card info"
-         data-tip="Searchable atlas of active OpenAI GitHub repositories">
-        <div class="route-paths">
-          <a href="https://glaubi.net/openai" target="_blank" class="path-tag info">/openai</a>
-        </div>
-        <div class="route-arrow">⟶</div>
-        <div class="route-dest">
-          <div class="dest-name">OpenAI Repository Atlas</div>
-          <div class="dest-type">GitHub Pages Catalog</div>
-          <div class="visit-links always-visible">
-            <a href="https://glaubi.net/openai" target="_blank" class="visit-btn">Visit ↗</a>
-            <a href="https://github.com/robertZaufall/openai-repos" target="_blank" class="visit-btn">GitHub ↗</a>
           </div>
         </div>
       </div>
@@ -657,6 +621,81 @@
           <div class="dest-type">Risk Report</div>
         </div>
       </a>
+
+    </div>
+  </div>
+
+  <!-- REPOSITORY ATLASES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon repo">🗂️</div>
+      <div class="section-title repo">Repository Atlases</div>
+    </div>
+    <div class="routes">
+
+      <div class="route-card repo"
+         data-tip="Searchable atlas of active NVIDIA GitHub repositories">
+        <div class="route-paths">
+          <a href="https://glaubi.net/nvidia" target="_blank" class="path-tag repo">/nvidia</a>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">NVIDIA Repository Atlas</div>
+          <div class="dest-type">GitHub Pages Catalog</div>
+          <div class="visit-links always-visible">
+            <a href="https://glaubi.net/nvidia" target="_blank" class="visit-btn">Visit ↗</a>
+            <a href="https://github.com/robertZaufall/nvidia-repos" target="_blank" class="visit-btn">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-card repo"
+         data-tip="Searchable atlas of active Microsoft GitHub repositories">
+        <div class="route-paths">
+          <a href="https://glaubi.net/microsoft" target="_blank" class="path-tag repo">/microsoft</a>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Microsoft Repository Atlas</div>
+          <div class="dest-type">GitHub Pages Catalog</div>
+          <div class="visit-links always-visible">
+            <a href="https://glaubi.net/microsoft" target="_blank" class="visit-btn">Visit ↗</a>
+            <a href="https://github.com/robertZaufall/microsoft-repos" target="_blank" class="visit-btn">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-card repo"
+         data-tip="Searchable atlas of active Anthropic GitHub repositories">
+        <div class="route-paths">
+          <a href="https://glaubi.net/anthropic" target="_blank" class="path-tag repo">/anthropic</a>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">Anthropic Repository Atlas</div>
+          <div class="dest-type">GitHub Pages Catalog</div>
+          <div class="visit-links always-visible">
+            <a href="https://glaubi.net/anthropic" target="_blank" class="visit-btn">Visit ↗</a>
+            <a href="https://github.com/robertZaufall/anthropic-repos" target="_blank" class="visit-btn">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="route-card repo"
+         data-tip="Searchable atlas of active OpenAI GitHub repositories">
+        <div class="route-paths">
+          <a href="https://glaubi.net/openai" target="_blank" class="path-tag repo">/openai</a>
+        </div>
+        <div class="route-arrow">⟶</div>
+        <div class="route-dest">
+          <div class="dest-name">OpenAI Repository Atlas</div>
+          <div class="dest-type">GitHub Pages Catalog</div>
+          <div class="visit-links always-visible">
+            <a href="https://glaubi.net/openai" target="_blank" class="visit-btn">Visit ↗</a>
+            <a href="https://github.com/robertZaufall/openai-repos" target="_blank" class="visit-btn">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
