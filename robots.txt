@@ -1,0 +1,9 @@
+# Streetlife is temporarily excluded from crawler access.
+# This applies to search and AI crawlers that honor robots.txt.
+# It is NOT authentication or access control. Other site sections are unchanged.
+User-agent: *
+Disallow: /streetlife$
+Disallow: /streetlife?
+Disallow: /streetlife/
+Disallow: /ideas/ai-streetlife
+Disallow: /ideas/concept/ai-streetlife
