@@ -1,0 +1,95 @@
+{
+  "stylesheet_source": "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap",
+  "fonts": [
+    {
+      "file": "1ab5cb4b90a56d6031db.woff2",
+      "source": "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYE58RXi4EwSsbg.woff2",
+      "sha256": "1ab5cb4b90a56d6031db3618250a1f1bb52a275df5a0ec9ae8e62686550f1af4"
+    },
+    {
+      "file": "b4f90459adf4851575a4.woff2",
+      "source": "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYE98RXi4EwSsbg.woff2",
+      "sha256": "b4f90459adf4851575a46d9a492c17ee34c97fe40d56979521de67d1ee77d75a"
+    },
+    {
+      "file": "e0c8e616bda27642f4c3.woff2",
+      "source": "https://fonts.gstatic.com/s/spacemono/v17/i7dPIFZifjKcF5UAWdDRYEF8RXi4EwQ.woff2",
+      "sha256": "e0c8e616bda27642f4c3cebaecff6525d901e73afc8a227cbbb0f2af4810f300"
+    },
+    {
+      "file": "e9c42e9aad5bf74da01a.woff2",
+      "source": "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFqaHi6WZ3S_Yg.woff2",
+      "sha256": "e9c42e9aad5bf74da01a810f8777a1ce45d924c4f28faf3a19b046b8f813321c"
+    },
+    {
+      "file": "512458b32bf452ac0e4b.woff2",
+      "source": "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFuaHi6WZ3S_Yg.woff2",
+      "sha256": "512458b32bf452ac0e4b33fd6277bf4f07821acefb59db2d1498aa107679a1a6"
+    },
+    {
+      "file": "af7cf6d2b897ec453acd.woff2",
+      "source": "https://fonts.gstatic.com/s/spacemono/v17/i7dMIFZifjKcF5UAWdDRaPpZUFWaHi6WZ3Q.woff2",
+      "sha256": "af7cf6d2b897ec453acdcdacde4e9bcc8410718af5914de865b453e09f10eebc"
+    },
+    {
+      "file": "bbe669d7448c351de7dc.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2NL9G78HEZnMg.woff2",
+      "sha256": "bbe669d7448c351de7dc0a945a94aa6e0d9c0464ea2ccd85152cb3f53229306a"
+    },
+    {
+      "file": "79bc839264c4a3c9b988.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm25L9G78HEZnMg.woff2",
+      "sha256": "79bc839264c4a3c9b988de4acbc0dcf0d9ca4b41e2df523940f81b78e3d6fdb3"
+    },
+    {
+      "file": "cfff412005eed2f0152d.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2",
+      "sha256": "cfff412005eed2f0152d1c110c78ac564642b943e64322fbd687083177d6fa70"
+    },
+    {
+      "file": "bbe669d7448c351de7dc.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2NL9G78HEZnMg.woff2",
+      "sha256": "bbe669d7448c351de7dc0a945a94aa6e0d9c0464ea2ccd85152cb3f53229306a"
+    },
+    {
+      "file": "79bc839264c4a3c9b988.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm25L9G78HEZnMg.woff2",
+      "sha256": "79bc839264c4a3c9b988de4acbc0dcf0d9ca4b41e2df523940f81b78e3d6fdb3"
+    },
+    {
+      "file": "cfff412005eed2f0152d.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2",
+      "sha256": "cfff412005eed2f0152d1c110c78ac564642b943e64322fbd687083177d6fa70"
+    },
+    {
+      "file": "bbe669d7448c351de7dc.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2NL9G78HEZnMg.woff2",
+      "sha256": "bbe669d7448c351de7dc0a945a94aa6e0d9c0464ea2ccd85152cb3f53229306a"
+    },
+    {
+      "file": "79bc839264c4a3c9b988.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm25L9G78HEZnMg.woff2",
+      "sha256": "79bc839264c4a3c9b988de4acbc0dcf0d9ca4b41e2df523940f81b78e3d6fdb3"
+    },
+    {
+      "file": "cfff412005eed2f0152d.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2",
+      "sha256": "cfff412005eed2f0152d1c110c78ac564642b943e64322fbd687083177d6fa70"
+    },
+    {
+      "file": "bbe669d7448c351de7dc.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2NL9G78HEZnMg.woff2",
+      "sha256": "bbe669d7448c351de7dc0a945a94aa6e0d9c0464ea2ccd85152cb3f53229306a"
+    },
+    {
+      "file": "79bc839264c4a3c9b988.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm25L9G78HEZnMg.woff2",
+      "sha256": "79bc839264c4a3c9b988de4acbc0dcf0d9ca4b41e2df523940f81b78e3d6fdb3"
+    },
+    {
+      "file": "cfff412005eed2f0152d.woff2",
+      "source": "https://fonts.gstatic.com/s/syne/v24/8vIH7w4qzmVxm2BL9G78HEY.woff2",
+      "sha256": "cfff412005eed2f0152d1c110c78ac564642b943e64322fbd687083177d6fa70"
+    }
+  ]
+}

@@ -25,8 +25,9 @@ operational records and infrastructure evidence outside this checkout.
 - Check changed URLs and duplicate destinations, and run `git diff --check`.
   For layout changes, inspect desktop and phone rendering. A local preview can
   use `python3 -m http.server 8000 --bind 127.0.0.1` from this directory.
-- Preserve the explicit Pages-origin favicon URL: the domain-root asset is
-  served separately. `robots.txt` is a crawler preference, not access control.
+- Keep fonts and the hub favicon under `site-assets/` with relative URLs; the
+  domain-root favicon and `/assets/*` belong to the dashboard. Run
+  `python3 check_assets.py` before publication. `robots.txt` is a crawler preference, not access control.
 - Route changes require fresh DNS, route and deployed Worker inspection. Preserve
   other application mounts and the shared catch-all; its source is not here.
 
